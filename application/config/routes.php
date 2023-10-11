@@ -50,5 +50,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'home';
+$route['admin'] = 'admin/index';
+$route['admin/karyawan'] = 'admin/karyawan';
+$route['admin/rekap/harian/(:any)'] = 'admin/rekap_harian/$1';
+$route['admin/rekap/mingguan/(:any)/(:any)'] = 'admin/rekap_mingguan/$1/$2';
+$route['admin/rekap/bulanan/(:any)/(:any)'] = 'admin/rekap_bulanan/$1/$2';
+$route['admin/export/rekapan'] = 'admin/export_rekapan';
+
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
