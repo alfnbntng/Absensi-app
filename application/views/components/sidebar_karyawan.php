@@ -35,17 +35,7 @@
             <a class="nav-link active" aria-current="page" href="<?= base_url('karyawan/menu_izin'); ?>">Menu Izin</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Rekap
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark">
-              <li><a class="dropdown-item" href="<?= base_url('karyawan/rekap_harian'); ?>">Harian</a></li>
-              <li><a class="dropdown-item" href="<?= base_url('karyawan/rekap_mingguan'); ?>">Mingguan</a></li>
-              <li><a class="dropdown-item" href="<?= base_url('karyawan/rekap_bulanan'); ?>">Bulanan</a></li>
-            </ul>
+            <a class="nav-link active" aria-current="page" href="<?= base_url('karyawan/profile'); ?>">Profile</a>
           </li>
         </ul>
         

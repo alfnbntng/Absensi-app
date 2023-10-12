@@ -14,6 +14,10 @@ class Karyawan_model extends CI_Model {
         return $this->db->get_where($table, array('id' => $id))->row();
     }
 
+    public function getAbsensiById($absen_id) {
+        return $this->db->get_where('absensi', array('id' => $absen_id))->row();
+    }    
+
     public function addAbsensi($data) {
         // Fungsi ini digunakan untuk menambahkan data absensi.
         // Anda dapat mengisi tanggal dan jam masuk sesuai dengan waktu saat ini.
@@ -48,8 +52,9 @@ class Karyawan_model extends CI_Model {
     
         $data = array(
             'id_karyawan' => $data['id_karyawan'], // Menggunakan data dari parameter
-            'kegiatan' => $data['keterangan'],      // Menggunakan data dari parameter
+            'keterangan_izin' => $data['keterangan'],      // Menggunakan data dari parameter
             'tanggal' => date('Y-m-d'),
+            'kegiatan' => '-',
             'jam_masuk' => '-',
             'jam_pulang' => '-',
             'status' => 'done'
@@ -58,6 +63,27 @@ class Karyawan_model extends CI_Model {
         // Selanjutnya, masukkan data ini ke tabel "absensi".
         $this->db->insert('absensi', $data);
     }
-    
-}
 
+    public function hapusAbsensi($absen_id) {
+        $this->db->where('id', $absen_id);
+        $this->db->delete('absensi');
+    }    
+
+    public function updateAbsensi($absen_id, $data) {
+        // Perbarui data absensi berdasarkan $absen_id
+        $this->db->where('id', $absen_id);
+        $this->db->update('absensi', $data);
+    }
+
+    public function batalPulang($absen_id) {
+        $data = array(
+            'jam_pulang' => null,
+            'status' => 'belum done'
+        );
+    
+        $this->db->where('id', $absen_id);
+        $this->db->update('absensi', $data);
+    }
+    
+
+}

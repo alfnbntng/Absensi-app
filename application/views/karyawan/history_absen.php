@@ -17,6 +17,8 @@
                 <tr class="text-center">
                     <th>No</th>
                     <th>Tanggal</th>
+                    <th>Kegiatan</th>
+                    <th>Keterangan Izin</th>
                     <th>Jam Masuk</th>
                     <th>Jam Pulang</th>
                     <th>Status</th>
@@ -24,20 +26,31 @@
                 </tr>
             </thead>
             <tbody>
-                <?php $no=0; foreach($absensi as $row): $no++ ?>
+                <?php $no = 0; foreach($absensi as $row): $no++; ?>
                 <tr class="text-center">
-                    <td><?php echo $no ?></td>
-                    <td><?php echo $row->tanggal ?></td>
-                    <td><?php echo $row->jam_masuk ?></td>
-                    <td><?php echo $row->jam_pulang ?></td>
-                    <td><?php echo $row->status ?></td>
+                    <td><?php echo $no; ?></td>
+                    <td><?php echo $row->tanggal; ?></td>
+                    <td><?php echo $row->kegiatan; ?></td>
+                    <td><?php echo $row->keterangan_izin; ?></td>
+                    <td><?php echo $row->jam_masuk; ?></td>
+                    <td><?php echo $row->jam_pulang; ?></td>
+                    <td><?php echo $row->status; ?></td>
                     <td>
                         <?php if ($row->status == 'done'): ?>
+                            <!-- Jika sudah selesai, tampilkan tombol Izin -->
                             Izin
                         <?php else: ?>
-                            <a href="<?php echo site_url('karyawan/pulang/' . $row->id); ?>" class="btn btn-success" id="pulangButton_<?php echo $row->id; ?>">Pulang</a>
-                            <a href="" class="btn btn-warning">Ubah</a>
-                            <button class="btn btn-danger">Hapus</button>
+                            <?php if ($row->status == 'pulang'): ?>
+                                <!-- Jika status 'pulang', tampilkan tombol "Batal Pulang" -->
+                                <a href="<?php echo site_url('karyawan/batal_pulang/' . $row->id); ?>" class="btn btn-danger">Batal Pulang</a>
+                            <?php else: ?>
+                                <!-- Jika status bukan 'pulang', tampilkan tombol "Pulang" -->
+                                <a href="<?php echo site_url('karyawan/pulang/' . $row->id); ?>" class="btn btn-success" id="pulangButton_<?php echo $row->id; ?>">
+                                    Pulang
+                                </a>
+                            <?php endif; ?>
+                            <a href="<?php echo site_url('karyawan/ubah_absensi/' . $row->id); ?>" class="btn btn-warning">Ubah</a>
+                            <a href="<?php echo site_url('karyawan/hapus/' . $row->id); ?>" class="btn btn-danger">Hapus</a>
                         <?php endif; ?>
                     </td>
                 </tr>

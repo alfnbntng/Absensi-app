@@ -40,7 +40,6 @@ class Karyawan extends CI_Controller {
             if ($this->form_validation->run() == FALSE) {
                 $this->load->view('karyawan/menu_absen');
             } else {
-
                 date_default_timezone_set('Asia/Jakarta');
                 $jam_masuk = date('H:i:s');
 
@@ -49,7 +48,8 @@ class Karyawan extends CI_Controller {
                     'kegiatan' => $this->input->post('kegiatan'),
                     'tanggal' => date('Y-m-d'),
                     'jam_masuk' => $jam_masuk,
-                    'status' => 'belum done'
+                    'status' => 'belum done',
+                    'keterangan_izin' => '-'
                 );
     
                 // Menambahkan absensi dan mendapatkan ID data yang baru ditambahkan
@@ -87,8 +87,6 @@ class Karyawan extends CI_Controller {
         }
     }
     
-    
-    
     public function pulang($absen_id) {
         if ($this->session->userdata('role') === 'karyawan') {
             $this->karyawan_model->setAbsensiPulang($absen_id);
@@ -104,4 +102,83 @@ class Karyawan extends CI_Controller {
             redirect('other_page');
         }
     } 
+
+    public function ubah_absensi($absen_id) {
+        if ($this->session->userdata('role') === 'karyawan') {
+            // Mengambil data absensi berdasarkan ID yang diberikan
+            $absensi = $this->karyawan_model->getAbsensiById($absen_id);
+    
+            // Periksa apakah data absensi ditemukan
+            if ($absensi) {
+                // Mengecek apakah pengguna mengirimkan formulir perubahan
+                if ($this->input->post()) {
+                    // Lakukan validasi terhadap input
+                    $this->form_validation->set_rules('kegiatan', 'Kegiatan', 'required');
+                    $this->form_validation->set_rules('jam_masuk', 'Jam Masuk', 'required');
+                    $this->form_validation->set_rules('jam_pulang', 'Jam Pulang', 'required');
+    
+                    if ($this->form_validation->run() === TRUE) {
+                        // Dapatkan data input pengguna
+                        $kegiatan = $this->input->post('kegiatan');
+                        $jam_masuk = $this->input->post('jam_masuk');
+                        $jam_pulang = $this->input->post('jam_pulang');
+    
+                        // Lakukan pembaruan data absensi
+                        $data = array(
+                            'kegiatan' => $kegiatan,
+                            'jam_masuk' => $jam_masuk,
+                            'jam_pulang' => $jam_pulang
+                        );
+    
+                        $this->karyawan_model->updateAbsensi($absen_id, $data);
+    
+                        // Set pesan sukses
+                        $this->session->set_flashdata('success', 'Data absensi berhasil diubah.');
+    
+                        // Redirect kembali ke halaman riwayat absen
+                        redirect('karyawan/history_absen');
+                    }
+                }
+    
+                $data['absensi'] = $absensi;
+                $data['absen_id'] = $absen_id;
+                $this->load->view('karyawan/ubah_absensi', $data);
+                
+            } else {
+                // Data absensi tidak ditemukan, tampilkan pesan error
+                show_error('Data absensi tidak ditemukan.', 404, 'Data Tidak Ditemukan');
+            }
+        } else {
+            // Pengguna bukan karyawan, redirect ke halaman lain
+            redirect('other_page');
+        }
+    }
+
+    public function batal_pulang($absen_id) {
+        if ($this->session->userdata('role') === 'karyawan') {
+            $this->karyawan_model->batalPulang($absen_id);
+    
+            // Set pesan sukses
+            $this->session->set_flashdata('success', 'Batal Pulang berhasil.');
+    
+            // Redirect kembali ke halaman riwayat absen
+            redirect('karyawan/history_absen');
+        } else {
+            redirect('other_page');
+        }
+    }
+    
+
+    public function hapus($absen_id) {
+        if ($this->session->userdata('role') === 'karyawan') {
+            $this->karyawan_model->hapusAbsensi($absen_id);
+            redirect('karyawan/history_absen');
+        } else {
+            redirect('other_page');
+        }
+    }
+    public function profile() {
+        $this->load->view('karyawan/profile');
+    }
+    
 }
