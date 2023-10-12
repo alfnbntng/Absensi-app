@@ -13,7 +13,6 @@ class Karyawan_model extends CI_Model {
     public function get_by_id($table, $id) {
         return $this->db->get_where($table, array('id' => $id))->row();
     }
-    
 
     public function addAbsensi($data) {
         // Fungsi ini digunakan untuk menambahkan data absensi.
@@ -22,14 +21,16 @@ class Karyawan_model extends CI_Model {
         $data['tanggal'] = date('Y-m-d');
         $data['jam_masuk'] = date('H:i:s');
         $data['status'] = 'belum done';
-
+    
         // Selanjutnya, masukkan data ini ke tabel "absensi".
         $this->db->insert('absensi', $data);
+    
+        // Kembalikan ID dari data yang baru saja ditambahkan
+        return $this->db->insert_id();
     }
 
-
     public function setAbsensiPulang($absen_id) {
-        // Fungsi ini digunakan untuk mengisi jam pulang dan mengubah status menjadi "done".
+        // Fungsi ini digunakan untuk mengisi jam pulang dan mengubah status menjadi "pulang".
         $data = array(
             'jam_pulang' => date('H:i:s'),
             'status' => 'pulang'
@@ -40,21 +41,23 @@ class Karyawan_model extends CI_Model {
         $this->db->update('absensi', $data);
     }
 
-    public function addIzin($user_id, $kegiatan) {
+    public function addIzin($data) {
         // Fungsi ini digunakan untuk menambahkan izin.
         // Anda dapat mengisi tanggal saat ini sebagai tanggal izin.
         // Anda juga perlu mengatur status ke "done" dan jam masuk serta jam pulang ke NULL.
+    
         $data = array(
-            'id_karyawan' => $user_id,
+            'id_karyawan' => $data['id_karyawan'], // Menggunakan data dari parameter
+            'kegiatan' => $data['keterangan'],      // Menggunakan data dari parameter
             'tanggal' => date('Y-m-d'),
-            'jam_masuk' => NULL,
-            'jam_pulang' => NULL,
-            'status' => 'done',
-            'kegiatan' => $kegiatan
+            'jam_masuk' => '-',
+            'jam_pulang' => '-',
+            'status' => 'done'
         );
-
+    
         // Selanjutnya, masukkan data ini ke tabel "absensi".
         $this->db->insert('absensi', $data);
     }
+    
 }
 

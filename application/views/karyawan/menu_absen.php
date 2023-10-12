@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Absen</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Tambahkan tautan ke SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.2.7/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="path/to/your/custom.css">
 </head>
 <body>
@@ -23,7 +25,19 @@
             </div>
         </div>
     </div>
+    <!-- Tambahkan tautan ke SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.2.7/dist/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="path/to/your/custom.js"></script>
+    <!-- Tambahkan script JavaScript untuk SweetAlert -->
+    <script>
+        <?php if ($this->session->flashdata('success')) : ?>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '<?= $this->session->flashdata('success') ?>'
+            });
+        <?php endif; ?>
+    </script>
 </body>
 </html>

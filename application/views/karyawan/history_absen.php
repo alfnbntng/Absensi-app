@@ -8,42 +8,74 @@
     <link rel="stylesheet" href="path/to/your/custom.css">
 </head>
 <body>
-    <?php $this->load->view('components/sidebar_karyawan'); ?>
-    <div class="min-vh-100 d-flex py-2 justify-content-center">
-        <div class="col-md-9">
-            <h2>Riwayat Absen</h2>
-            <table class="table">
-                <thead class="table-dark">
-                    <tr class="text-center">
-                        <th>No</th>
-                        <th>Tanggal</th>
-                        <th>Jam Masuk</th>
-                        <th>Jam Pulang</th>
-                        <th>Status</th>
-                        <th>aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $no=0; foreach($absensi as $row): $no++ ?>
-                            <tr>
-                                <td><?php echo $no ?></td>
-                                <td><?php echo $row->tanggal ?></td>
-                                <td><?php echo $row->jam_masuk ?></td>
-                                <td><?php echo $row->jam_pulang ?></td>
-                                <td><?php echo $row->status ?></td>
-                                <td>
-                                <td>
-                                    <a href="<?php echo site_url('karyawan/pulang/' . $row->id); ?>" class="btn btn-success">Pulang</a>
-                                    <a href="" class="btn btn-warning">Ubah</a>
-                                    <button class="btn btn-danger">Hapus</button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+<?php $this->load->view('components/sidebar_karyawan'); ?>
+<div class="min-vh-100 d-flex py-2 justify-content-center">
+    <div class="col-md-9">
+        <h2>Riwayat Absen</h2>
+        <table class="table">
+            <thead class="table-dark">
+                <tr class="text-center">
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Jam Masuk</th>
+                    <th>Jam Pulang</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $no=0; foreach($absensi as $row): $no++ ?>
+                <tr class="text-center">
+                    <td><?php echo $no ?></td>
+                    <td><?php echo $row->tanggal ?></td>
+                    <td><?php echo $row->jam_masuk ?></td>
+                    <td><?php echo $row->jam_pulang ?></td>
+                    <td><?php echo $row->status ?></td>
+                    <td>
+                        <?php if ($row->status == 'done'): ?>
+                            Izin
+                        <?php else: ?>
+                            <a href="<?php echo site_url('karyawan/pulang/' . $row->id); ?>" class="btn btn-success" id="pulangButton_<?php echo $row->id; ?>">Pulang</a>
+                            <a href="" class="btn btn-warning">Ubah</a>
+                            <button class="btn btn-danger">Hapus</button>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
+</div>
+
+    
+    <!-- Bootstrap CSS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="path/to/your/custom.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        <?php foreach ($absensi as $row): ?>
+            var absenId = <?php echo $row->id; ?>;
+            var status = '<?php echo $row->status; ?>';
+            disablePulangButton(absenId, status);
+        <?php endforeach; ?>
+        
+        function showSweetAlert(message) {
+            Swal.fire({
+                icon: 'info',
+                text: message,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+
+        function disablePulangButton(absenId, status) {
+            var pulangButton = document.getElementById("pulangButton_" + absenId);
+            if (status === 'pulang') {
+                pulangButton.classList.add("disabled");
+                pulangButton.removeAttribute("href");
+            }
+        }
+    </script>
 </body>
 </html>
