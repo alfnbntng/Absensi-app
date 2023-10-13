@@ -1,178 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./profile.css" />
-    <title>Tugas Bintang/profile</title>
-    <style>
-        .card {
-            position: relative;
-            width: 350px;
-            height: 190px;
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
-            transition: 0.5s;
-        }
-
-        .card:hover {
-            height: 450px;
-        }
-
-        .imgBx {
-            position: absolute;
-            left: 50%;
-            top: -50px;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 150px;
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
-            overflow: hidden;
-            transition: 0.5s;
-        }
-
-        .card:hover .imgBx {
-            width: 250px;
-            height: 250px;
-        }
-
-        .imgBx img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .card .content {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            overflow: hidden;
-        }
-
-        .card .content .details {
-            padding: 40px;
-            text-align: center;
-            width: 100%;
-            transition: 0.5s;
-            transform: translateY(150px);
-        }
-
-        .card:hover .content .details {
-            transform: translateY(0px);
-        }
-
-        .card .content .details h2 {
-            font-size: 1.25em;
-            font-weight: 600;
-            color: #555;
-            line-height: 1.2em;
-        }
-
-        .card .content .details h2 span {
-            font-size: 0.75em;
-            font-weight: 500;
-            opacity: 0.5;
-        }
-
-        .card .content .details .data {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
-        }
-
-        .card .content .details .data h3 {
-            font-size: 1em;
-            color: #555;
-            line-height: 1.2em;
-            font-weight: 600;
-        }
-
-        .card .content .details .data h3 span {
-            font-size: 0.85em;
-            font-weight: 400;
-            opacity: 0.5;
-        }
-
-        .card .content .details .actionBtn {
-            display: flex;
-            justify-content: space-between;
-            /* gap: 20px; */
-        }
-
-        .card .content .details .actionBtn button {
-            padding: 10px 30px;
-            border-radius: 5px;
-            border: none;
-            outline: none;
-            font-size: 1em;
-            font-weight: 500;
-            background: black;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .card .content .details .actionBtn button:nth-child(2) {
-            border: 1px solid #999;
-            color: #999;
-            background: #fff;
-
-
-        }
-
-        /* tombol kembali */
-        .menuback {
-            color: white;
-            display: flex;
-            padding-left: 20px;
-            padding-top: 20px;
-            background: linear-gradient(45deg, #4B8673, #4fa88c);
-        }
-
-        .menuback a {
-            text-decoration: none;
-            color: white;
-        }
-
-        a:hover {
-            color: rgb(224, 224, 224);
-        }
-
-    </style>
-  </head>
-  <body>
-  <?php $this->load->view('components/sidebar_karyawan'); ?>
-    <div class="container">
-        <div class="row justify-content-center align-self-center">
-            <div class="card col-md-6">
-                <div class="imgBx">
-                <img src="./img/profile.png" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"> 
+</head>
+<body>
+    <?php $this->load->view('components/sidebar_karyawan');?>
+    <div class="d-flex align-items-center">
+        <div class="card w-75 m-auto p-3 text-dark">
+            <h3 class="text-center p-3">Akun</h3>
+            <form action="<?php echo base_url('karyawan/aksi_ubah_akun')?>" method="post" class="row" enctype="multipart/form-data">
+                <div class="mb-3 col-6">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" value="<?php echo $user->email ?>" class="form-control" id="email" name="email">
                 </div>
-                <div class="content">
-                <div class="details">
-                    <h2>James Tukang Bond <br /><span>SMPN 1 Semarang</span></h2>
-                    <div class="data">
-                    <h3>342 <br /><span>Posts</span></h3>
-                    <h3>120K <br /><span>Followers</span></h3>
-                    <h3>285 <br /><span>Following</span></h3>
-                    </div>
-                    <div class="actionBtn">
-                    <button>Follow</button>
-                    <button>Message</button>
-                    </div>
+                <div class="mb-3 col-6">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" value="<?php echo $user->username?>" id="username" name="username">
                 </div>
+                <div class="mb-3 col-6">
+                    <label for ="first_name" class="form-label">First Name</label>
+                    <input type="text" class="form-control" value="<?php echo $user->first_name?>" id="first_name" name="first_name">
                 </div>
-            </div>
+                <div class="mb-3 col-6">
+                    <label for="last_name" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" value="<?php echo $user->last_name?>" id="last_name" name="last_name">
+                </div>
+                <div class="mb-3 col-6">
+                    <label for="password_baru" class="form-label">Password Baru</label>
+                    <input type="text" class="form-control" id="password_baru" name="password_baru">
+                </div>
+                <div class="mb-3 col-6">
+                    <label for="konfirmasi_password" class="form-label">Konfirmasi Password Baru</label>
+                    <input type="text" class="form-control" id="konfirmasi_password" name="konfirmasi_password">
+                </div>
+                <div class="mb-3 col-12">
+                    <label for="kelas" class="form-label">Foto</label>
+                    <input type="file" class="form-control" id="foto" name="foto">
+                </div>
+                <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+            </form>
         </div>
     </div>
-  </body>
+</body> 
 </html>

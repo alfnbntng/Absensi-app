@@ -24,10 +24,6 @@
                                 <label for="jam_masuk" class="form-label">Jam Masuk:</label>
                                 <input type="text" class="form-control" id="jam_masuk" name="jam_masuk" value="<?= $absensi->jam_masuk; ?>" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="jam_pulang" class="form-label">Jam Pulang:</label>
-                                <input type="text" class="form-control" id="jam_pulang" name="jam_pulang" value="<?= $absensi->jam_pulang; ?>" required>
-                            </div>
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         </form>
                     </div>

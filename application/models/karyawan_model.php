@@ -10,8 +10,14 @@ class Karyawan_model extends CI_Model {
         return $this->db->get($table);
     }
     
-    public function get_by_id($table, $id) {
-        return $this->db->get_where($table, array('id' => $id))->row();
+    public function get_by_id($table, $field, $id) {
+        return $this->db->get_where($table, array($field => $id))->row();
+    }    
+
+    public function update($table, $data, $where)
+    {
+        $data = $this->db->update($table, $data, $where);
+        return $this->db->affected_rows();
     }
 
     public function getAbsensiById($absen_id) {
