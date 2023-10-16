@@ -20,10 +20,15 @@
                         <label for="kegiatan" class="form-label">Kegiatan</label>
                         <textarea class="form-control" id="kegiatan" name="kegiatan" rows="4" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Absen</button>
+                    <button type="submit" class="btn btn-dark">Absen</button>
                 </form>
             </div>
         </div>
+    </div>
+        <!-- penghubung dashboard -->
+        </div>
+        </div>
+      </div>
     </div>
     <!-- Tambahkan tautan ke SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.2.7/dist/sweetalert2.min.js"></script>

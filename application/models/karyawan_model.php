@@ -20,6 +20,12 @@ class Karyawan_model extends CI_Model {
         return $this->db->affected_rows();
     }
 
+    public function tambah_data($table, $data)
+    {
+        $this->db->insert($table, $data);
+        return $this->db->insert_id();
+    }
+
     public function getAbsensiById($absen_id) {
         return $this->db->get_where('absensi', array('id' => $absen_id))->row();
     }    
@@ -89,6 +95,16 @@ class Karyawan_model extends CI_Model {
     
         $this->db->where('id', $absen_id);
         $this->db->update('absensi', $data);
+    }
+
+    public function get_paginated_absensi($table, $limit, $offset) {
+        $this->db->limit($limit, $offset);
+        $this->db->order_by('tanggal', 'desc');
+        return $this->db->get($table)->result();
+    }
+
+    public function count_all_absensi($table) {
+        return $this->db->count_all($table);
     }
     
 

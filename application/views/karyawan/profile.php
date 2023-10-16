@@ -41,9 +41,14 @@
                     <label for="kelas" class="form-label">Foto</label>
                     <input type="file" class="form-control" id="foto" name="foto">
                 </div>
-                <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                <button type="submit" class="btn btn-dark" name="submit">Submit</button>
             </form>
         </div>
+    </div>
+        <!-- penghubung dashboard -->
+        </div>
+        </div>
+      </div>
     </div>
 </body> 
 </html>

@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Karyawan extends CI_Controller {
     public function __construct() {
         parent::__construct();
@@ -12,9 +15,10 @@ class Karyawan extends CI_Controller {
 
     public function index() {
         if ($this->session->userdata('role') === 'karyawan') {
-            $data['absensi'] = $this->karyawan_model->get_data('absensi')->num_rows();
-            $data['absensi_data'] = $this->karyawan_model->get_data('absensi')->result();
+           // Di dalam controller Karyawan.php
+            $data['absensi'] = $this->karyawan_model->get_data('absensi')->result();
             $this->load->view('karyawan/dashboard', $data);
+
         } else {
             redirect('other_page');
         }
@@ -114,17 +118,20 @@ class Karyawan extends CI_Controller {
                 if ($this->input->post()) {
                     // Lakukan validasi terhadap input
                     $this->form_validation->set_rules('kegiatan', 'Kegiatan', 'required');
+                    $this->form_validation->set_rules('tanggal', 'tanggal', 'required');
                     $this->form_validation->set_rules('jam_masuk', 'Jam Masuk', 'required');
 
                     if ($this->form_validation->run() === TRUE) {
                         // Dapatkan data input pengguna
                         $kegiatan = $this->input->post('kegiatan');
                         $jam_masuk = $this->input->post('jam_masuk');
+                        $tanggal = $this->input->post('tanggal');
 
                         // Lakukan pembaruan data absensi
                         $data = array(
                             'kegiatan' => $kegiatan,
-                            'jam_masuk' => $jam_masuk
+                            'jam_masuk' => $jam_masuk,
+                            'tanggal' => $tanggal
                         );
 
                         $this->karyawan_model->updateAbsensi($absen_id, $data);
@@ -263,6 +270,50 @@ class Karyawan extends CI_Controller {
             } else {
                 redirect(base_url('karyawan/profile'));
             }
+        }
+    }
+
+    public function import_karyawan()
+    {
+        if (isset($_FILES["file"]["name"])) {
+            // Pastikan file yang diunggah adalah file Excel
+            $allowedFileTypes = ['application/vnd.ms-excel', 'text/xls', 'text/xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+            if (in_array($_FILES["file"]["type"], $allowedFileTypes)) {
+                // Path file yang diunggah
+                $path = $_FILES["file"]["tmp_name"];
+                
+                // Load file Excel menggunakan PhpSpreadsheet
+                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+                $worksheet = $spreadsheet->getActiveSheet();
+                
+                // Loop melalui data di file Excel dan masukkan ke dalam database
+                foreach ($worksheet->getRowIterator(2) as $row) {
+                    $namaKaryawan = $worksheet->getCellByColumnAndRow(2, $row->getRowIndex())->getValue();
+                    $kegiatan = $worksheet->getCellByColumnAndRow(3, $row->getRowIndex())->getValue();
+                    $tanggal = $worksheet->getCellByColumnAndRow(4, $row->getRowIndex())->getValue();
+                    $jamMasuk = $worksheet->getCellByColumnAndRow(5, $row->getRowIndex())->getValue();
+                    $jamPulang = $worksheet->getCellByColumnAndRow(6, $row->getRowIndex())->getValue();
+                    $status = $worksheet->getCellByColumnAndRow(7, $row->getRowIndex())->getValue();
+                    
+                    // Simpan data ke dalam database, sesuaikan dengan struktur tabel Anda
+                    $data = [
+                        'kegiatan' => $kegiatan,
+                        'tanggal' => $tanggal,
+                        'jam_masuk' => $jam_masuk,
+                        'jam_pulang' => $jam_pulang,
+                        'status' => $status,
+                    ];
+                    
+                    $this->karyawan_model->tambah_data('absensi', $data);
+                }
+                
+                // Redirect ke halaman yang sesuai setelah import selesai
+                redirect(base_url('karyawan/history_absen'));
+            } else {
+                echo 'Tipe file tidak didukung.';
+            }
+        } else {
+            echo 'File tidak diunggah.';
         }
     }
 }
