@@ -486,10 +486,10 @@ h1, .h1 {
             ><i class="fas fa-file-upload"></i> History Absen
           </a>
           <a href="<?= base_url('karyawan/menu_absen'); ?>" class="dashboard-nav-item"
-            ><i class="fas fa-cogs"></i> Menu Absen
+            ><i class="fa-solid fa-briefcase"></i> Menu Absen
           </a>
           <a href="<?= base_url('karyawan/menu_izin'); ?>" class="dashboard-nav-item"
-            ><i class="fa-solid fa-viruses"></i> Menu Izin
+            ><i class="fa-solid fa-note-sticky"></i> Menu Izin
           </a>
           <a href="<?= base_url('karyawan/profile'); ?>" class="dashboard-nav-item"
             ><i class="fas fa-user"></i> Profile

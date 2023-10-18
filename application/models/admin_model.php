@@ -6,9 +6,56 @@ class Admin_model extends CI_Model {
         parent::__construct();
     }
 
+    function get_data($table){
+        return $this->db->get($table);
+    }
+
     public function getKaryawan() {
         $query = $this->db->get('absensi');
         return $query->result_array();
+    }
+
+    public function get_by_id($table, $field, $id) {
+        return $this->db->get_where($table, array($field => $id))->row();
+    }    
+
+    public function update($table, $data, $where)
+    {
+        $data = $this->db->update($table, $data, $where);
+        return $this->db->affected_rows();
+    }
+
+    public function getHarianData($tanggal) {
+        $this->db->select('absensi.id, user.username, absensi.kegiatan, absensi.tanggal as date, absensi.jam_masuk, absensi.jam_pulang, absensi.keterangan_izin, absensi.status');
+        $this->db->from('absensi');
+        $this->db->join('user', 'user.id = absensi.id_karyawan', 'left');
+        $this->db->where('absensi.tanggal', $tanggal);
+    
+        $query = $this->db->get();
+    
+        return $query->result();
+
+    }
+
+    public function getMingguanData($tanggal_awal, $tanggal_akhir) {
+        $this->db->select('absensi.id, user.username, absensi.kegiatan, absensi.tanggal as date, absensi.jam_masuk, absensi.jam_pulang, absensi.keterangan_izin, absensi.status');
+        $this->db->from('absensi');
+        $this->db->join('user', 'user.id = absensi.id_karyawan', 'left');
+        $this->db->where("WEEK(absensi.tanggal, 3) BETWEEN $tanggal_awal AND $tanggal_akhir");
+    
+        $query = $this->db->get();
+    
+        return $query->result();
+    }
+
+    public function getBulananData($bulan)
+    {
+        $this->db->select("absensi.*, user.username");
+        $this->db->from("absensi");
+        $this->db->join("user", "absensi.id_karyawan = user.id", "left");
+        $this->db->where("DATE_FORMAT(tanggal, '%Y-%m') = '$bulan'");
+        $query = $this->db->get();
+        return $query->result();
     }
 
     public function getRekapHarian($tanggal) {
@@ -56,34 +103,29 @@ class Admin_model extends CI_Model {
         $this->db->from('absensi');
         $this->db->join('user', 'user.id = absensi.id_karyawan', 'left');
         $query = $this->db->get();
-    
+        
         return $query->result();
     }
-    
-    public function exportDataRekapHarian($tanggal_awal, $tanggal_akhir) {
-        $this->db->select('tanggal, COUNT(*) as total_absensi');
-        $this->db->from('absensi');
-        $this->db->where('tanggal >=', $tanggal_awal);
-        $this->db->where('tanggal <=', $tanggal_akhir);
-        $this->db->group_by('tanggal');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-    
-    public function exportDataRekapMingguan() {
-        $this->db->select('WEEK(tanggal) as minggu, COUNT(*) as total_absensi');
-        $this->db->from('absensi');
-        $this->db->group_by('minggu');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-    
-    public function exportDataRekapBulanan() {
-        $this->db->select('MONTH(tanggal) as bulan, COUNT(*) as total_absensi');
-        $this->db->from('absensi');
-        $this->db->group_by('bulan');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
+
+    public function get_user_data($user_id) {
+            // Mengambil data pengguna dari database (termasuk informasi foto profil)
+            $query = $this->db->get_where('user', ['id' => $user_id]);
+            return $query->row(); // Mengembalikan data pengguna sebagai objek
+        }
+        
+    public function getAbsensiByDateRange($tanggalMulai, $tanggalAkhir) {
+            $this->db->select('absensi.id, user.username, absensi.kegiatan, absensi.tanggal, absensi.jam_masuk, absensi.jam_pulang, absensi.keterangan_izin, absensi.status');
+            $this->db->from('absensi');
+            $this->db->join('user', 'user.id = absensi.id_karyawan', 'left');
+            $this->db->where('absensi.tanggal >=', $tanggalMulai);
+            $this->db->where('absensi.tanggal <=', $tanggalAkhir);
+        
+            $query = $this->db->get();
+        
+            return $query->result();
+        }
+        
+
+   
     
 }

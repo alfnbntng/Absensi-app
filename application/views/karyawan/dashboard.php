@@ -51,27 +51,37 @@
 <body>
     <?php $this->load->view('components/sidebar_karyawan'); ?>
     <div class=" py-2 justify-content-center">
-    <div class="row">
-        <div class="col-md-3 col-xl-6">
-            <div class="card bg-c-blue order-card">
-                <div class="card-block text-white">
-                    <h6 class="m-b-20">Orders Received</h6>
-                    <h2 class="text-right"><i class="fa fa-cart-plus f-left"></i><span class="f-right">486</span></h2>
-                    <p class="m-b-0">Completed Orders</p>
+        <div class="row">
+            <div class="col-md-3 col-xl-4">
+                <div class="card bg-c-blue order-card">
+                    <div class="card-block text-white">
+                        <h6 class="m-b-20">Total Izin</h6>
+                        <h2 class="text-right"><i class="fa-solid fa-calendar-days"></i><span class="f-right"><?php echo $totalIzin; ?></span></h2>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-xl-4">
+                <div class="card bg-c-green order-card">
+                    <div class="card-block text-white">
+                        <h6 class="m-b-20">Total Masuk</h6>
+                        <h2 class="text-right"><i class="fa-solid fa-calendar-days"></i><span class="f-right"><?php echo $totalMasuk; ?></span></h2>
+                    </div>
+                </div>
+            </div>   
+        
+            <div class="col-md-3 col-xl-4">
+                <div class="card bg-c-green order-card">
+                    <div class="card-block text-white">
+                        <h6 class="m-b-20">Total Keseluruhan</h6>
+                        <h2 class="text-right">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            <span class="f-right"><?php echo ($totalIzin + $totalMasuk); ?></span>
+                        </h2>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="col-md-6 col-xl-6">
-            <div class="card bg-c-green order-card">
-                <div class="card-block text-white">
-                    <h6 class="m-b-20">Orders Received</h6>
-                    <h2 class="text-right"><i class="fa fa-rocket f-left"></i><span class="f-right">486</span></h2>
-                    <p class="m-b-0">Completed Orders</p>
-                </div>
-            </div>
-        </div>   
-    </div>
     
     <div class="">
             <table class="table">

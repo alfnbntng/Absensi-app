@@ -9,8 +9,7 @@
 </head>
 <body>
 <?php $this->load->view('components/sidebar_karyawan'); ?>
-<div class="min-vh-100 d-flex py-2 justify-content-center">
-    <div class="col-md-9">
+    <div class="min-vh-100 py-2 justify-content-center">
         <h2>Riwayat Absen</h2>
         <div class="py-3">
                 <button type="button" class="btn btn-outline-warning mb-2" data-bs-toggle="modal" data-bs-target="#myModal">
@@ -49,6 +48,7 @@
                 <tr class="text-center">
                     <th>No</th>
                     <th>Tanggal</th>
+                    <th>Nama</th>
                     <th>Kegiatan</th>
                     <th>Keterangan Izin</th>
                     <th>Jam Masuk</th>
@@ -63,21 +63,19 @@
                 <tr class="text-center">
                     <td><?php echo $no; ?></td>
                     <td><?php echo $row->tanggal; ?></td>
+                    <td><?php echo panggil_username($row->id_karyawan); ?></td>
                     <td><?php echo $row->kegiatan; ?></td>
                     <td><?php echo $row->keterangan_izin; ?></td>
                     <td><?php echo $row->jam_masuk; ?></td>
                     <td><?php echo $row->jam_pulang; ?></td>
                     <td><?php echo $row->status; ?></td>
                     <td>
-                        <?php if ($row->status == 'done'): ?>
-                            <!-- Jika sudah selesai, tampilkan tombol Izin -->
-                            Izin
+                        <?php if ($row->status == 'Izin'): ?>
+                           -
                         <?php else: ?>
                             <?php if ($row->status == 'pulang'): ?>
-                                <!-- Jika status 'pulang', tampilkan tombol "Batal Pulang" -->
                                 <a href="<?php echo site_url('karyawan/batal_pulang/' . $row->id); ?>" class="btn btn-danger">Batal Pulang</a>
                             <?php else: ?>
-                                <!-- Jika status bukan 'pulang', tampilkan tombol "Pulang" -->
                                 <a href="<?php echo site_url('karyawan/pulang/' . $row->id); ?>" class="btn btn-success" id="pulangButton_<?php echo $row->id; ?>">
                                     Pulang
                                 </a>
@@ -85,7 +83,7 @@
                         <?php endif; ?>
                     </td>
                     <td>
-                        <?php if ($row->status != 'done'): ?>
+                        <?php if ($row->status != 'pulang' && $row->status != 'Izin'): ?>
                         <a href="<?php echo site_url('karyawan/ubah_absensi/' . $row->id); ?>" class="btn btn-warning">Ubah</a>
                         <?php endif; ?>
                             <a href="javascript:void(0);" class="btn btn-danger" onclick="confirmDelete(<?php echo $row->id; ?>)">Hapus</a>
@@ -95,7 +93,6 @@
             </tbody>
         </table>
     </div>
-</div>
 <!-- Bootstrap JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- SweetAlert2 -->

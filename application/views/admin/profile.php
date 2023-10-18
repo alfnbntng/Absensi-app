@@ -62,28 +62,35 @@
             margin-left: 1rem;
             margin-right: 1rem;
         }
+
+        .img-account-profile {
+            height: 10rem; /* Atur tinggi gambar sesuai kebutuhan */
+            width: 10rem; /* Setel lebar gambar agar sama dengan tingginya */
+            object-fit: cover; /* Memastikan gambar terisi sepenuhnya ke dalam kotak */
+            border-radius: 50%; /* Mengatur sudut gambar menjadi lingkaran (untuk gambar bulat) */
+        }
+
     </style>
 </head>
 <body>
-    <?php $this->load->view('components/sidebar_karyawan');?>
+    <?php $this->load->view('components/sidebar_admin');?>
     <div class="d-flex align-items-center">
     <div class="container">
     <div class="row">
-        <div class="col-xl-4">
+    <div class="col-xl-4">
             <!-- Profile picture card-->
             <div class="card mb-4 mb-xl-0">
                 <div class="card-header">Profile Picture</div>
                 <div class="card-body text-center">
                 <?php if (isset($user)) : ?>
-                    <img class="img-account-profile rounded-circle mb-2" src="<?php echo base_url('images/karyawan/' . $user->image); ?>" alt="Profile Picture">
+                    <img class="img-account-profile rounded-circle mb-2" src="<?php echo base_url('images/admin/' . $user->image); ?>" alt="Profile Picture">
                 <?php endif; ?>
-                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                    <form action="<?php echo base_url('karyawan/aksi_ubah_foto')?>" method="post" class="row" enctype="multipart/form-data">
+                    <div class="small font-italic text-muted mb-4">foto tidak boleh lebih 5 MB</div>
+                    <form action="<?php echo base_url('admin/aksi_ubah_foto')?>" method="post" class="row" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label for="formFile" class="form-label">Default file input example</label>
                             <input class="form-control" type="file" name="image" id="image" accept="image/*">
                         </div>
-                        <button class="btn btn-dark" type="submit">Upload new image</button>
+                        <button class="btn btn-dark" type="submit">Ubah Foto Admin</button>
                     </form>
                 </div>
             </div>
@@ -93,7 +100,7 @@
             <div class="card mb-4">
                 <div class="card-header">Account Details</div>
                 <div class="card-body">
-                    <form action="<?php echo base_url('karyawan/aksi_ubah_akun')?>" method="post" class="row" enctype="multipart/form-data">
+                    <form action="<?php echo base_url('admin/aksi_ubah_akun')?>" method="post" class="row" enctype="multipart/form-data">
                         <!-- Form Group (username)-->
                         <div class="mb-3">
                             <label class="small mb-1" for="inputUsername">Username</label>

@@ -486,17 +486,22 @@ h1, .h1 {
             ><i class="fas fa-file-upload"></i> Karyawan
           </a>
           <a href="<?= base_url('admin/rekap_harian'); ?>" class="dashboard-nav-item"
-            ><i class="fas fa-cogs"></i> Rekap Harian
+            ><i class="fa-solid fa-calendar-days"></i> Rekap Harian
           </a>
           <a href="<?= base_url('admin/rekap_mingguan'); ?>" class="dashboard-nav-item"
-            ><i class="fa-solid fa-viruses"></i> Rekap Mingguan
+            ><i class="fa-solid fa-calendar-week"></i> Rekap Mingguan
           </a>
           <a href="<?= base_url('admin/rekap_bulanan'); ?>" class="dashboard-nav-item"
-            ><i class="fas fa-user"></i> Rekap Bulanan
+            ><i class="fa-regular fa-calendar"></i> Rekap Bulanan
           </a>
+          <a href="<?= base_url('admin/profile'); ?>" class="dashboard-nav-item"
+            ><i class="fas fa-user"></i> Profile
+          </a>
+          <div class="nav-item-divider"></div>
           <a href="#" class="dashboard-nav-item"
             ><i class="fas fa-sign-out-alt"></i> Logout
           </a>
+        </nav>
         </nav>
       </div>
       <div class="dashboard-app">

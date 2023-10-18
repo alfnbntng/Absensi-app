@@ -42,11 +42,12 @@
 
         .field-icon {
             position: absolute;
-            top: 50%;
+            top: 53%;
             right: 10px;
             transform: translateY(-50%);
             cursor: pointer;
             user-select: none;
+            background-color:white;
         }
 
  
@@ -75,15 +76,16 @@
                                 </div>
                                 <div class="col-12">
                                     <label for="inputPassword" class="form-label">Password</label>
-                                    <input name="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
+                                    <div class="input-group">
+                                        <input name="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
+                                        <span class="input-group-text field-icon toggle-password" onclick="togglePassword()">
+                                            <i class="fas fa-eye-slash"></i>
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-12">
                                     <label for="inputAddress2" class="form-label">Username</label>
                                     <input name="username" type="text" class="form-control" id="inputAddress2" placeholder="Username">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="inputCity" class="form-label">City</label>
-                                    <input name="" type="text" class="form-control" id="inputCity">
                                 </div>
                                 <div class="text-center py-2 col-12">
                                     <button type="submit" class="btn btn-primary">Sign in</button>

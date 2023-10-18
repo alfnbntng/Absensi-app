@@ -14,34 +14,41 @@
 <body>
     <?php $this->load->view('components/sidebar_admin'); ?>
     <h2>Rekap Mingguan</h2>
+    <div class="my-3">
+        <a class="btn btn-dark"  href="<?php echo base_url('admin/export_rekap_mingguan') ?>"; ?>Eksport Rekap Mingguan</a>
+    </div>    
     <div class="min-vh-100 d-flex py-2 justify-content-center">
-        <div class="col-md-9 table-responsive">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Kegiatan</th>
-                        <th>Tanggal</th>
-                        <th>Masuk</th>
-                        <th>Pulang</th>
-                        <th>Izin</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $no = 0; foreach ($absensi as $absen): $no++ ?>
-                    <tr>
-                        <td><?= $no; ?></td>
-                        <td><?= $absen['kegiatan']; ?></td>
-                        <td><?= $absen['tanggal']; ?></td>
-                        <td><?= $absen['jam_masuk']; ?></td>
-                        <td><?= $absen['jam_pulang']; ?></td>
-                        <td><?= $absen['keterangan_izin']; ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div> 
+        <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kegiatan</th>
+                                <th>Tanggal</th>
+                                <th>Masuk</th>
+                                <th>Pulang</th>
+                                <th>Izin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $no = 0; foreach ($absensi as $absen): $no++ ?>
+                            <tr>
+                                <td><?= $no; ?></td>
+                                <td><?= $absen['kegiatan']; ?></td>
+                                <td><?= $absen['tanggal']; ?></td>
+                                <td><?= $absen['jam_masuk']; ?></td>
+                                <td><?= $absen['jam_pulang']; ?></td>
+                                <td><?= $absen['keterangan_izin']; ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div> 
+            </div>
+        </div>
         </div>
     </div>
     <!-- penghubung dashboard -->
