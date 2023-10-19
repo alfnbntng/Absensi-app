@@ -54,7 +54,7 @@
                     <div class="card"> 
                         <div class="card-body"> 
                             <img src="https://binusasmg.sch.id/ppdb/logobinusa.png" alt="Logo" class="mb-4 logo"> 
-                            <h2 class="card-title text-center">Sign In</h2> 
+                            <h2 class="card-title text-center">Masuk</h2> 
                             <form action="<?php echo base_url(); ?>Auth/process_login" method="post" method="post">
                                 <div class="mb-3"> 
                                     <input type="text" class="form-control" name="email" placeholder="Email" required> 
@@ -66,7 +66,7 @@
                                 </div>
 
                                 <div class="text-center"> 
-                                    <button type="submit" class="btn btn-dark">Login</button> 
+                                    <button type="submit" class="btn btn-dark">Masuk</button> 
                                 </div> 
                             </form> 
                             <!-- Menampilkan pesan kesalahan jika ada -->

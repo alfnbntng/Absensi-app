@@ -73,18 +73,18 @@
 <body> 
     <div class="min-vh-100 d-flex align-items-center"> 
         <div class="container"> 
-        <h1 class="text-center text-light">Register Karyawan</h1>
+        <h1 class="text-center text-light">Daftar Karyawan</h1>
             <div class="row justify-content-center"> 
                 <div class="col-md-4"> 
                     <div class="card"> 
                         <div class="card-body"> 
                             <form class="row g-3" action="<?= base_url('Auth/process_register_karyawan'); ?>" method="post"> 
                                 <div class="col-md-6">
-                                    <label for="inputName4" class="form-label">First Name</label>
+                                    <label for="inputName4" class="form-label">Nama Depan</label>
                                     <input name="first_name" type="first name" class="form-control" id="inputName4">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="inputPassword4" class="form-label">Last Name</label>
+                                    <label for="inputPassword4" class="form-label">Nama Belakang</label>
                                     <input name="last_name" type="last_name" class="form-control" id="inputPassword4">
                                 </div>
                                 <div class="col-12">
@@ -105,7 +105,7 @@
                                     <input name="username" type="text" class="form-control" id="inputAddress2" placeholder="Username">
                                 </div>
                                 <div class="text-center py-2 col-12">
-                                    <button type="submit" class="btn btn-dark">Sign in</button>
+                                    <button type="submit" class="btn btn-dark">Daftar</button>
                                 </div>
                             </form> 
                             <div class="text-center">

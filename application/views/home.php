@@ -11,7 +11,7 @@
     <style>
 
         body {
-            /* background-image: url('https://wallpapercave.com/wp/wp12064884.jpg'); */
+            background-image: url('https://winair.ca/wp-content/uploads/2019/01/Our-Team-Employee-Background-Image-.jpg');
             background-size: cover; 
             background-repeat: no-repeat;
             background-attachment: fixed; 
