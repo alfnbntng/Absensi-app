@@ -17,7 +17,7 @@
     <style> 
  
         body { 
-            background-image: url('https://media.gettyimages.com/id/1318919777/pt/v%C3%ADdeo/4k-network-digital-background.jpg?s=640x640&k=20&c=rShWdt2hp1jpk9Y7IrLjEkBmAv4DcQyI1zIt5tv-xP8='); 
+            background-image: url('https://wallpaperaccess.com/full/2579546.jpg'); 
             background-size: cover;  
             background-repeat: no-repeat; 
             background-attachment: fixed;  
@@ -59,14 +59,14 @@
                                 <div class="mb-3"> 
                                     <input type="text" class="form-control" name="email" placeholder="Email" required> 
                                 </div> 
-                                <span class="text-center">Password Minimal 8 Karakter </span>
+                                <span class="text-center text-white">Password Minimal 8 Karakter </span>
                                 <div class="mb-3 position-relative">
                                     <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                                     <span class="fa fa-fw fa-eye-slash field-icon toggle-password" onclick="togglePassword()"></span>
                                 </div>
 
                                 <div class="text-center"> 
-                                    <button type="submit" class="btn btn-primary">Login</button> 
+                                    <button type="submit" class="btn btn-dark">Login</button> 
                                 </div> 
                             </form> 
                             <!-- Menampilkan pesan kesalahan jika ada -->

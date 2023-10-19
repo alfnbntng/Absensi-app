@@ -85,7 +85,6 @@
                 <?php if (isset($user)) : ?>
                     <img class="img-account-profile rounded-circle mb-2" src="<?php echo base_url('images/admin/' . $user->image); ?>" alt="Profile Picture">
                 <?php endif; ?>
-                    <div class="small font-italic text-muted mb-4">foto tidak boleh lebih 5 MB</div>
                     <form action="<?php echo base_url('admin/aksi_ubah_foto')?>" method="post" class="row" enctype="multipart/form-data">
                         <div class="mb-3">
                             <input class="form-control" type="file" name="image" id="image" accept="image/*">

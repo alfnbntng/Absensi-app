@@ -53,6 +53,7 @@ class Auth extends CI_Controller {
                 // Set pesan kesalahan
                 $data['login_error'] = 'Email atau kata sandi salah';
                 $this->load->view('auth/login', $data);
+                return;
             }
         }
     }
@@ -74,7 +75,7 @@ class Auth extends CI_Controller {
                 'email' => $this->input->post('email'),
                 'password' => $hashed_password,
                 'role' => 'karyawan',
-                'image' => $this->input->post('user.png')
+                'image' =>'images/admin/user.png'
             ];
 
             $this->db->insert('user', $data);
@@ -99,7 +100,7 @@ class Auth extends CI_Controller {
                 'email' => $this->input->post('email'),
                 'password' => $hashed_password,
                 'role' => 'admin',
-                'image' => $this->input->post('user.png')
+                'image' =>'images/admin/user.png'
             ];
 
             $this->db->insert('user', $data);

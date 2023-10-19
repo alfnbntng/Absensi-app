@@ -498,7 +498,7 @@ h1, .h1 {
             ><i class="fas fa-user"></i> Profile
           </a>
           <div class="nav-item-divider"></div>
-          <a href="#" class="dashboard-nav-item"
+          <a href="<?= base_url('auth/logout')?>" class="dashboard-nav-item" id="logout-link"
             ><i class="fas fa-sign-out-alt"></i> Logout
           </a>
         </nav>
@@ -522,10 +522,31 @@ h1, .h1 {
                   }
                });
             });
+
+            $(document).ready(function () {
+            $("#logout-link").click(function (e) {
+               e.preventDefault(); 
+               console.log("Tautan logout diklik");
+
+               // Menampilkan SweetAlert untuk konfirmasi logout
+               Swal.fire({
+               title: 'Konfirmasi Logout',
+               text: 'Apakah Anda yakin ingin logout?',
+               icon: 'warning',
+               showCancelButton: true,
+               confirmButtonText: 'Ya, Logout',
+               cancelButtonText: 'Batal'
+               }).then((result) => {
+               if (result.isConfirmed) {
+                  // Redirect atau lakukan logout di sini
+                  window.location.href = '<?= base_url('auth/logout')?>';
+               }
+               });
+            });
+         });
           </script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
       integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -541,15 +562,7 @@ h1, .h1 {
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.all.min.js"></script>
   </body>
 </html>

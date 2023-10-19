@@ -15,7 +15,6 @@ class Karyawan extends CI_Controller {
     }
 
     public function index() {
-        if ($this->session->userdata('role') === 'karyawan') {
             // Set zona waktu ke 'Asia/Jakarta'
             date_default_timezone_set('Asia/Jakarta');
     
@@ -31,10 +30,7 @@ class Karyawan extends CI_Controller {
             $data['totalKeseluruhan'] = $totalKeseluruhan;
     
             $this->load->view('karyawan/dashboard', $data);
-    
-        } else {
-            redirect('other_page');
-        }
+   
     }
     
     private function convertToJakartaTime($utcTime) {
@@ -44,7 +40,6 @@ class Karyawan extends CI_Controller {
     }
 
     public function history_absen() {
-        if ($this->session->userdata('role') === 'karyawan') {
             // Set zona waktu ke 'Asia/Jakarta'
             date_default_timezone_set('Asia/Jakarta');
             
@@ -69,9 +64,7 @@ class Karyawan extends CI_Controller {
             $data['totalKeseluruhan'] = $totalKeseluruhan;
             
             $this->load->view('karyawan/history_absen', $data);
-        } else {
-            redirect('other_page');
-        }
+
     }
     
     
@@ -97,7 +90,6 @@ class Karyawan extends CI_Controller {
     
 
     public function menu_absen() {
-        if ($this->session->userdata('role') === 'karyawan') {
             $user_id = $this->session->userdata('id'); // Ambil id pengguna yang sedang login
             $this->form_validation->set_rules('kegiatan', 'Kegiatan', 'required');
 
@@ -122,13 +114,11 @@ class Karyawan extends CI_Controller {
                 // Redirect ke halaman history_absen dengan membawa ID baru
                 redirect('karyawan/history_absen/' . $new_absensi_id);
             }
-        } else {
-            redirect('other_page');
-        }
+        
     }
 
     public function menu_izin() {
-        if ($this->session->userdata('role') === 'karyawan') {
+       
             $user_id = $this->session->userdata('id');
             $this->form_validation->set_rules('keterangan', 'Keterangan Izin', 'required');
 
@@ -146,13 +136,11 @@ class Karyawan extends CI_Controller {
                 // Redirect ke halaman history_absen
                 redirect('karyawan/history_absen');
             }
-        } else {
-            redirect('other_page');
-        }
+     
     }
 
     public function pulang($absen_id) {
-        if ($this->session->userdata('role') === 'karyawan') {
+        
             $this->karyawan_model->setAbsensiPulang($absen_id);
 
             // Set pesan sukses
@@ -162,13 +150,11 @@ class Karyawan extends CI_Controller {
             echo '<script>showSweetAlert("Jam pulang berhasil diisi.");</script>';
 
             redirect('karyawan/history_absen');
-        } else {
-            redirect('other_page');
-        }
+     
     }
 
     public function ubah_absensi($absen_id) {
-        if ($this->session->userdata('role') === 'karyawan') {
+        
             // Mengambil data absensi berdasarkan ID yang diberikan
             $absensi = $this->karyawan_model->getAbsensiById($absen_id);
 
@@ -212,33 +198,21 @@ class Karyawan extends CI_Controller {
                 // Data absensi tidak ditemukan, tampilkan pesan error
                 show_error('Data absensi tidak ditemukan.', 404, 'Data Tidak Ditemukan');
             }
-        } else {
-            // Pengguna bukan karyawan, redirect ke halaman lain
-            redirect('other_page');
-        }
+      
     }
 
     public function batal_pulang($absen_id) {
-        if ($this->session->userdata('role') === 'karyawan') {
             $this->karyawan_model->batalPulang($absen_id);
 
-            // Set pesan sukses
             $this->session->set_flashdata('success', 'Batal Pulang berhasil.');
 
-            // Redirect kembali ke halaman riwayat absen
             redirect('karyawan/history_absen');
-        } else {
-            redirect('other_page');
-        }
+    
     }
 
     public function hapus($absen_id) {
-        if ($this->session->userdata('role') === 'karyawan') {
             $this->karyawan_model->hapusAbsensi($absen_id);
             redirect('karyawan/history_absen');
-        } else {
-            redirect('other_page');
-        }
     }
 
     public function profile() {

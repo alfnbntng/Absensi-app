@@ -49,7 +49,7 @@
                     <div class="">
                         <div class="container">
                             <img src="https://binusasmg.sch.id/ppdb/logobinusa.png" alt="Logo" class="mb-4 logo">
-                            <h2 class="card-title text-center text-dark fs-1">Welcome King</h2>
+                            <h2 class="card-title text-center text-dark fs-1">Absensi-App</h2>
                             <hr class="text-light">
                             <div class="d-flex justify-content-center">
                                 <div class="text-center mx-1">

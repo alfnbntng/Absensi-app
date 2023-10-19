@@ -23,7 +23,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table">
-                        <thead>
+                        <thead class="table-dark">
                             <tr>
                                 <th>No</th>
                                 <th>Kegiatan</th>

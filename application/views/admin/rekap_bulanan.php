@@ -74,8 +74,8 @@
                                                 <tr class="detail-row" data-month="<?= $data['bulan'] ?>">
                                                     <div class="card-body">
                                                         <div class="table-responsive">
-                                                            <table class="table table-dark" style="min-width: 100%">
-                                                                <thead>
+                                                            <table class="table" style="min-width: 100%">
+                                                                <thead class="table-dark">
                                                                     <tr>
                                                                         <th>ID</th>
                                                                         <th>Nama</th>

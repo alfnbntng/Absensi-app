@@ -13,11 +13,30 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        function togglePassword() {
+            var passwordField = document.getElementById("inputPassword"); // Ganti "password" menjadi "inputPassword"
+            var icon = document.querySelector(".toggle-password");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-regular fa-eye");
+            } else {
+                passwordField.type = "password";
+                icon.classList.remove("fa-regular fa-eye");
+                icon.classList.add("fa-eye-slash");
+            }
+        }
+    </script>
+ 
  
     <style> 
  
         body { 
-            background-image: url('https://img.freepik.com/free-vector/realistic-style-technology-particle-background_23-2148426704.jpg'); 
+            background-image: url('https://1.bp.blogspot.com/-ecoj5ptIkf0/X0VWk_iYp8I/AAAAAAAAMXc/m9s0V-lY4LcVy1t-3SKgwRrwFIwK-L2HQCNcBGAsYHQ/w1200-h630-p-k-no-nu/TUMNAIL-BLOG-WSM.jpg'); 
             background-size: cover;  
             background-repeat: no-repeat; 
             background-attachment: fixed;  
@@ -88,7 +107,7 @@
                                     <input name="username" type="text" class="form-control" id="inputAddress2" placeholder="Username">
                                 </div>
                                 <div class="text-center py-2 col-12">
-                                    <button type="submit" class="btn btn-primary">Sign in</button>
+                                    <button type="submit" class="btn btn-dark">Sign in</button>
                                 </div>
                             </form> 
                             <div class="text-center">
@@ -100,22 +119,7 @@
             </div> 
         </div> 
     </div> 
-    <script>
-        function togglePassword() {
-            var passwordField = document.getElementById("password");
-            var icon = document.querySelector(".toggle-password");
-
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-                icon.classList.remove("fa-eye-slash");
-                icon.classList.add("fa-eye");
-            } else {
-                passwordField.type = "password";
-                icon.classList.remove("fa-eye");
-                icon.classList.add("fa-eye-slash");
-            }
-        }
-    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body> 
 </html>

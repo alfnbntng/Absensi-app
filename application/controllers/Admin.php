@@ -14,7 +14,6 @@ class Admin extends CI_Controller {
     }
 
     public function index() {
-        if ($this->session->userdata('role') === 'admin') {
             // Set zona waktu ke 'Asia/Jakarta'
             date_default_timezone_set('Asia/Jakarta');
     
@@ -31,9 +30,6 @@ class Admin extends CI_Controller {
     
             $this->load->view('admin/dashboard', $data);
     
-        } else {
-            redirect('other_page');
-        }
     }
 
     public function daftar_karyawan() {
@@ -200,35 +196,20 @@ class Admin extends CI_Controller {
     }
     
     public function export_rekap_harian() {
-        $tanggal = date('Y-m-d');
-        $spreadsheet = new Spreadsheet();
+        $tanggal = $this->input->get('tanggal');
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
-    
+        
         if (!empty($tanggal)) {
             $style_col = [
                 'font' => ['bold' => true],
-                'alignment' => [
-                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                    'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
-                ],
-                'borders' => [
-                    'top' => ['borderstyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
-                    'right' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
-                    'bottom' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
-                    'left' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]
-                ]
+                'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
+                'borders' => ['outline' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]],
             ];
     
             $style_row = [
-                'alignment' => [
-                    'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
-                ],
-                'borders' => [
-                    'top' => ['borderstyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
-                    'right' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
-                    'bottom' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN],
-                    'left' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]
-                ]
+                'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT],
+                'borders' => ['outline' => ['borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN]],
             ];
     
             $sheet->setCellValue('A1', "DATA ABSEN KARYAWAN");
@@ -244,19 +225,12 @@ class Admin extends CI_Controller {
             $sheet->setCellValue('G3', "KETERANGAN IZIN");
             $sheet->setCellValue('H3', "STATUS");
     
-            $sheet->getStyle('A3')->applyFromArray($style_col);
-            $sheet->getStyle('B3')->applyFromArray($style_col);
-            $sheet->getStyle('C3')->applyFromArray($style_col);
-            $sheet->getStyle('D3')->applyFromArray($style_col);
-            $sheet->getStyle('E3')->applyFromArray($style_col);
-            $sheet->getStyle('F3')->applyFromArray($style_col);
-            $sheet->getStyle('G3')->applyFromArray($style_col);
-            $sheet->getStyle('H3')->applyFromArray($style_col);
+            $sheet->getStyle('A3:H3')->applyFromArray($style_col);
     
             $data = $this->admin_model->getHarianData($tanggal);
-    
             $no = 1;
             $numrow = 4;
+    
             foreach ($data as $row) {
                 $sheet->setCellValue('A' . $numrow, $no);
                 $sheet->setCellValue('B' . $numrow, $row->username);
@@ -267,19 +241,12 @@ class Admin extends CI_Controller {
                 $sheet->setCellValue('G' . $numrow, $row->keterangan_izin);
                 $sheet->setCellValue('H' . $numrow, $row->status);
     
-                $sheet->getStyle('A' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('B' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('C' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('D' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('E' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('F' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('G' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('H' . $numrow)->applyFromArray($style_row);
+                $sheet->getStyle('A' . $numrow . ':H' . $numrow)->applyFromArray($style_row);
     
                 $no++;
                 $numrow++;
             }
-    
+
             $sheet->getColumnDimension('A')->setWidth(5);
             $sheet->getColumnDimension('B')->setWidth(25);
             $sheet->getColumnDimension('C')->setWidth(50);
@@ -289,16 +256,16 @@ class Admin extends CI_Controller {
             $sheet->getColumnDimension('G')->setWidth(30);
             $sheet->getColumnDimension('H')->setWidth(30);
     
-            $sheet->getDefaultRowDimension()->setRowHeight(-1);
     
+            $sheet->calculateColumnWidths();
             $sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
     
-            $sheet->setTitle("LAPORAN DATA ABSEN KARYAWAN");
+            $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+    
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment; filename="Rekap_Harian .xlsx"');
+            header('Content-Disposition: attachment; filename="Rekap_Harian.xlsx"');
             header('Cache-Control: max-age=0');
     
-            $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
             $writer->save('php://output');
         }
     }

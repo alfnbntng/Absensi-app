@@ -11,40 +11,8 @@
 <?php $this->load->view('components/sidebar_karyawan'); ?>
     <div class="min-vh-100 py-2 justify-content-center">
         <h2>Riwayat Absen</h2>
-        <div class="py-3">
-                <button type="button" class="btn btn-outline-warning mb-2" data-bs-toggle="modal" data-bs-target="#myModal">
-                    Buka Modal
-                </button>
-
-            <!-- modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Form Contoh</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h3 class="text-center text-dark">Tambah File</h3>
-                                <!-- Form di dalam modal -->
-                                <form method="post" enctype="multipart/form-data" action="<?= base_url('karyawan/import_karyawan')?>" class="text-dark">
-                                <div class="form-outline mb-4">
-                                    <input type="file" name="file" id="form1Example2" class="form-control" placeholder="Tambah File.." />
-                                    <input type="submit" name="import" id="form1Example2" class="form-control btn btn-primary" value="import" />
-                                    <label class="form-label" for="form1Example2">Tambah File</label>
-                                </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                <button type="button" class="btn btn-primary">Simpan</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </div>
         <table class="table table-hover table-responsive">
-            <thead style="background-color: #373193;" class="table">
+            <thead class="table-dark">
                 <tr class="text-center">
                     <th>No</th>
                     <th>Tanggal</th>

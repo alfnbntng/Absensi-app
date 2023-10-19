@@ -25,17 +25,17 @@ class Admin_model extends CI_Model {
         return $this->db->affected_rows();
     }
 
-    public function getHarianData($tanggal) {
-        $this->db->select('absensi.id, user.username, absensi.kegiatan, absensi.tanggal as date, absensi.jam_masuk, absensi.jam_pulang, absensi.keterangan_izin, absensi.status');
-        $this->db->from('absensi');
-        $this->db->join('user', 'user.id = absensi.id_karyawan', 'left');
-        $this->db->where('absensi.tanggal', $tanggal);
-    
-        $query = $this->db->get();
-    
-        return $query->result();
+        public function getHarianData($tanggal) {
+            $this->db->select('absensi.id, user.username, absensi.kegiatan, absensi.tanggal as date, absensi.jam_masuk, absensi.jam_pulang, absensi.keterangan_izin, absensi.status');
+            $this->db->from('absensi');
+            $this->db->join('user', 'user.id = absensi.id_karyawan', 'left');
+            $this->db->where('absensi.tanggal', $tanggal);
+        
+            $query = $this->db->get();
+        
+            return $query->result();
 
-    }
+        }
 
     public function getMingguanData($tanggal_awal, $tanggal_akhir) {
         $this->db->select('absensi.id, user.username, absensi.kegiatan, absensi.tanggal as date, absensi.jam_masuk, absensi.jam_pulang, absensi.keterangan_izin, absensi.status');

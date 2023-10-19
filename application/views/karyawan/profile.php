@@ -77,10 +77,8 @@
                 <?php if (isset($user)) : ?>
                     <img class="img-account-profile rounded-circle mb-2" src="<?php echo base_url('images/karyawan/' . $user->image); ?>" alt="Profile Picture">
                 <?php endif; ?>
-                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
                     <form action="<?php echo base_url('karyawan/aksi_ubah_foto')?>" method="post" class="row" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label for="formFile" class="form-label">Default file input example</label>
                             <input class="form-control" type="file" name="image" id="image" accept="image/*">
                         </div>
                         <button class="btn btn-dark" type="submit">Upload new image</button>

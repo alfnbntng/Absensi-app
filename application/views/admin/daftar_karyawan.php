@@ -54,7 +54,7 @@
             <a class="btn btn-primary mb-2" href="<?= base_url('admin/export_karyawan')?>">Export</a>
         </div>
         <table class="table table-hover table-responsive">
-            <thead style="background-color: #373193;" class="table">
+            <thead style="background-color: #373193;" class="table-dark">
                 <tr class="text-center">
                     <th>No</th>
                     <th>Nama</th>
