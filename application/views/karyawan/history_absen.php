@@ -21,8 +21,7 @@
                     <th>Keterangan Izin</th>
                     <th>Jam Masuk</th>
                     <th>Jam Pulang</th>
-                    <th>Status</bth>
-                    <th>Pulang</th>
+                    <th>Status</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -41,20 +40,19 @@
                         <?php if ($row->status == 'Izin'): ?>
                            -
                         <?php else: ?>
-                            <?php if ($row->status == 'pulang'): ?>
-                                <a href="<?php echo site_url('karyawan/batal_pulang/' . $row->id); ?>" class="btn btn-danger">Batal Pulang</a>
-                            <?php else: ?>
-                                <a href="<?php echo site_url('karyawan/pulang/' . $row->id); ?>" class="btn btn-success" id="pulangButton_<?php echo $row->id; ?>">
-                                    Pulang
-                                </a>
-                            <?php endif; ?>
+                            <div id="aksi_<?php echo $row->id; ?>">
+                                <?php if ($row->status == 'pulang'): ?>
+                                    <a href="<?php echo site_url('karyawan/batal_pulang/' . $row->id); ?>" class="btn btn-danger">Batal Pulang</a>
+                                <?php else: ?>
+                                    <a href="<?php echo site_url('karyawan/pulang/' . $row->id); ?>" class="btn btn-success" id="pulangButton_<?php echo $row->id; ?>">
+                                        Pulang
+                                    </a>
+                                <?php endif; ?>
+                                <?php if ($row->status != 'pulang' && $row->status != 'Izin'): ?>
+                                    <a href="<?php echo site_url('karyawan/ubah_absensi/' . $row->id); ?>" class="btn btn-warning">Ubah</a>
+                                <?php endif; ?>
+                            </div>
                         <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if ($row->status != 'pulang' && $row->status != 'Izin'): ?>
-                        <a href="<?php echo site_url('karyawan/ubah_absensi/' . $row->id); ?>" class="btn btn-warning">Ubah</a>
-                        <?php endif; ?>
-                            <a href="javascript:void(0);" class="btn btn-danger" onclick="confirmDelete(<?php echo $row->id; ?>)">Hapus</a>
                     </td>
                 </tr>
                 <?php } ?>
@@ -68,6 +66,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script>
+    // Mengatur tampilan tombol berdasarkan status saat memuat halaman
     <?php foreach ($absensi as $row): ?>
         var absenId = <?php echo $row->id; ?>;
         var status = '<?php echo $row->status; ?>';
@@ -86,29 +85,33 @@
     function disablePulangButton(absenId, status) {
         var pulangButton = document.getElementById("pulangButton_" + absenId);
         if (status === 'pulang') {
-            pulangButton.classList.add("disabled");
-            pulangButton.removeAttribute("href");
+            // Tombol "Batal Pulang" diklik, Anda dapat menambahkan kode di sini
+            pulangButton.classList.add("btn-danger");
+            pulangButton.classList.remove("btn-success");
+            pulangButton.innerHTML = "Batal Pulang";
+        } else {
+            // Tombol "Pulang" diklik, Anda dapat menambahkan kode di sini
+            pulangButton.classList.remove("btn-danger");
+            pulangButton.classList.add("btn-success");
+            pulangButton.innerHTML = "Pulang";
         }
     }
+    
+    // Memeriksa status saat tombol "Pulang" di klik
+    document.addEventListener("click", function(event) {
+        if (event.target.id && event.target.id.startsWith("pulangButton_")) {
+            var absenId = event.target.id.replace("pulangButton_", "");
+            var status = '<?php echo $row->status; ?>'; // Status dari PHP
 
-    // Fungsi untuk mengonfirmasi penghapusan
-    function confirmDelete(absenId) {
-        Swal.fire({
-            title: 'Konfirmasi Hapus',
-            text: 'Anda yakin ingin menghapus item ini?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Redirect ke halaman penghapusan jika dikonfirmasi
-                window.location.href = "<?php echo site_url('karyawan/hapus/'); ?>" + absenId;
+            if (status === 'pulang') {
+                // Tombol "Batal Pulang" diklik, Anda dapat menambahkan kode di sini
+                disablePulangButton(absenId, 'pulang');
+            } else {
+                // Tombol "Pulang" diklik, Anda dapat menambahkan kode di sini
+                disablePulangButton(absenId, 'batal_pulang');
             }
-        });
-    }
+        }
+    });
 </script>
 </body>
 </html>

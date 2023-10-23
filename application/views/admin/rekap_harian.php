@@ -7,36 +7,33 @@
             <!-- Tambahkan tag-head Anda di sini, seperti CSS dan JavaScript yang dibutuhkan -->
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
             <link rel="stylesheet" href="path/to/your/custom.css">
+            <style>
+              
+            </style>
         </script>
         </head>
         <body>
             <?php $this->load->view('components/sidebar_admin'); ?>
             <div class="min-vh-100 d-flex py-2 justify-content-center">
                 <div class="col-md-12">
-                    <h2>Rekap Harian</h2>
-                    <div class="card my-2">
-                        <div class="card-body">
-                            <form action="<?= base_url('admin/rekap_harian'); ?>" method="get">
-                                <div class="form-group">
-                                    <label for="tanggal">Pilih Tanggal</label>
-                                    <input type="date" class="form-control" id="tanggal" name="tanggal">
-                                    <button type="submit" class="btn btn-dark my-2 form-control">Filter</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
                     
                     <div class="card">
-                        <div class="m-3">
-                            <a class="btn btn-dark" href="<?= base_url('admin/export_rekap_harian?tanggal=' . $tanggal); ?>">Ambil Rekap Harian</a>
-                        </div>
                         <div class="card-body">
-                            
+                            <h2>Rekap Harian</h2>
+                            <div class="d-flex justify-content-end py-1">
+                                <form action="<?= base_url('admin/rekap_harian'); ?>" method="get">
+                                    <div class="form-group d-flex">
+                                        <input type="date" class="form-control" id="tanggal" name="tanggal">
+                                        <button type="submit" class="btn btn-dark " style="margin-right: 10px;">Filter</button>
+                                    </div>
+                                </form>
+                                <a class="btn btn-dark " href="<?= base_url('admin/export_rekap_harian?tanggal=' . $tanggal); ?>" style="margin-left: 10px;">Ambil Rekap Harian</a>
+                            </div>
 
                             <table class="table">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th>ID</th>
+                                        <th>No</th>
                                         <th>Nama Karyawan</th>
                                         <th>Tanggal</th>
                                         <th>Kegiatan</th>
@@ -46,9 +43,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($rekap_harian as $rekap): ?>
+                                    <?php $no = 0; foreach ($rekap_harian as $rekap): $no++?>
                                         <tr>
-                                            <td><?= $rekap['id']; ?></td>
+                                            <td><?= $no; ?></td>
                                             <td><?= panggil_username($rekap['id_karyawan']) ?></td>
                                             <td><?= $rekap['tanggal']; ?></td>
                                             <td><?= $rekap['kegiatan']; ?></td>

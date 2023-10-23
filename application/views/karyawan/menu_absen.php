@@ -25,11 +25,6 @@
             </div>
         </div>
     </div>
-        <!-- penghubung dashboard -->
-        </div>
-        </div>
-      </div>
-    </div>
     <!-- Tambahkan tautan ke SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.2.7/dist/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -41,6 +36,14 @@
                 icon: 'success',
                 title: 'Success',
                 text: '<?= $this->session->flashdata('success') ?>'
+            });
+        <?php endif; ?>
+
+        <?php if ($this->session->flashdata('error')) : ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<?= $this->session->flashdata('error') ?>'
             });
         <?php endif; ?>
     </script>

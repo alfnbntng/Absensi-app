@@ -68,6 +68,11 @@ class Admin extends CI_Controller {
         return $totalMasuk;
     }
 
+    public function hapus($absen_id) {
+        $this->admin_model->hapusAbsensi($absen_id);
+        redirect('admin/daftar_karyawan');
+}
+
     public function export_karyawan()
     {
         $spreadsheet = new Spreadsheet();
@@ -508,37 +513,48 @@ class Admin extends CI_Controller {
 
 
     public function aksi_ubah_akun()
-    {
-        // Dapatkan data akun dari formulir
-        $password_baru = $this->input->post('password_baru');
-        $konfirmasi_password = $this->input->post('konfirmasi_password');
-        $email = $this->input->post('email');
-        $username = $this->input->post('username');
-        $first_name = $this->input->post('first_name');
-        $last_name = $this->input->post('last_name');
+        {
+            $password_lama = $this->input->post('password_lama');
+            $password_baru = $this->input->post('password_baru');
+            $konfirmasi_password = $this->input->post('konfirmasi_password');
+            $email = $this->input->post('email');
+            $username = $this->input->post('username');
+            $first_name = $this->input->post('first_name');
+            $last_name = $this->input->post('last_name');
 
-        $data = [
-            'email' => $email,
-            'username' => $username,
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-        ];
-        
-        if (!empty($password_baru)) {
-            if ($password_baru === $konfirmasi_password) {
-                $data['password'] = md5($password_baru);
+            $user_id = $this->session->userdata('id');
+            $user = $this->admin_model->get_by_id('user', 'id', $user_id);
+
+            // Validasi Password Lama
+            if (md5($password_lama) !== $user->password) {
+                echo json_encode(['status' => 'error', 'message' => 'Password Lama Salah']);
+                exit;
+            }
+
+            $data = [
+                'email' => $email,
+                'username' => $username,
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+            ];
+
+            if (!empty($password_baru)) {
+                if ($password_baru === $konfirmasi_password) {
+                    $data['password'] = md5($password_baru);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Password Baru dan Konfirmasi Password harus sama']);
+                    exit;
+                }
+            }
+
+            $update_result = $this->admin_model->update('user', $data, ['id' => $user_id]);
+
+            if ($update_result) {
+                redirect('admin/profile');
             } else {
-                $this->session->set_flashdata('message', 'Password baru dan Konfirmasi password harus sama');
-                redirect(base_url('admin/profile'));
+                echo json_encode(['status' => 'error', 'message' => 'Gagal memperbarui profil']);
             }
         }
-
-        // Update informasi akun pengguna ke dalam database
-        $this->admin_model->update('user', $data, ['id' => $this->session->userdata('id')]);
-
-        $this->session->set_userdata($data);
-        redirect(base_url('admin/profile'));
-    }
 
     public function aksi_ubah_foto()
     {

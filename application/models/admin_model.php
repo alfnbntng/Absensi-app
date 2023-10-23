@@ -25,6 +25,11 @@ class Admin_model extends CI_Model {
         return $this->db->affected_rows();
     }
 
+    public function hapusAbsensi($absen_id) {
+        $this->db->where('id', $absen_id);
+        $this->db->delete('absensi');
+    }    
+
         public function getHarianData($tanggal) {
             $this->db->select('absensi.id, user.username, absensi.kegiatan, absensi.tanggal as date, absensi.jam_masuk, absensi.jam_pulang, absensi.keterangan_izin, absensi.status');
             $this->db->from('absensi');

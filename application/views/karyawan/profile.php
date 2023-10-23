@@ -92,39 +92,43 @@
                 <div class="card-header">Account Details</div>
                 <div class="card-body">
                     <form action="<?php echo base_url('karyawan/aksi_ubah_akun')?>" method="post" class="row" enctype="multipart/form-data">
-                        <!-- Form Group (username)-->
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputUsername">Username</label>
+                        <div class="mb-1">
+                            <span>Username</span>
                             <input type="text" class="form-control" value="<?php echo $user->username?>" id="username" name="username">
                         </div>
-                        <div class="mb-3">
-                            <label class="small mb-1" for="inputEmailAddress">Email address</label>
+                        <div class="mb-1">
+                            <span>Email</span>
                             <input type="text" value="<?php echo $user->email ?>" class="form-control" id="email" name="email">
                         </div>
                         <!-- Form Row-->
-                        <div class="row gx-3 mb-3">
+                        <div class="row gx-3 mb-1">
                             <!-- Form Group (first name)-->
                             <div class="col-md-6">
-                                <label class="small mb-1" for="inputFirstName">First name</label>
+                                <span>Nama Depan</span>
                                 <input type="text" class="form-control" value="<?php echo $user->first_name?>" id="first_name" name="first_name">
                             </div>
                             <!-- Form Group (last name)-->
                             <div class="col-md-6">
-                                <label class="small mb-1" for="inputLastName">Last name</label>
+                                <span>Nama Belakang</span>
                                 <input type="text" class="form-control" value="<?php echo $user->last_name?>" id="last_name" name="last_name">
                             </div>
                         </div>
                         <!-- Form Row        -->
-                        <div class="row gx-3 mb-3">
-                            <!-- Form Group (organization name)-->
+                        <div class="row gx-3 mb-1">
+                            <div class="col-md-12">
+                                <span>Password Lama</span>
+                                <input type="text" placeholder="Password Lama" class="form-control" id="password_lama" name="password_lama">
+                            </div>
+                        </div>
+                        <div class="row gx-3 mb-1">
                             <div class="col-md-6">
-                                <label class="small mb-1" for="inputOrgName">Password Baru</label>
-                                <input type="text" class="form-control" id="password_baru" name="password_baru">
+                                <span>Password Baru</span>
+                                <input type="text" placeholder="Password Baru" class="form-control" id="password_baru" name="password_baru">
                             </div>
                             <!-- Form Group (location)-->
                             <div class="col-md-6">
-                                <label class="small mb-1" for="inputLocation">Konfirmasi Password</label>
-                                <input type="text" class="form-control" id="konfirmasi_password" name="konfirmasi_password">
+                                <span>Password Konfirmasi</span>
+                                <input type="text" placeholder="Konfirmasi Password" class="form-control" id="konfirmasi_password" name="konfirmasi_password">
                             </div>
                         </div>
                         <!-- Save changes button-->

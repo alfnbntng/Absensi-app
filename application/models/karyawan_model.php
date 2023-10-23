@@ -36,16 +36,40 @@
         }    
 
         public function addAbsensi($data) {
-            $data['tanggal'] = date('Y-m-d');
-            $data['jam_masuk'] = date('H:i:s');
-            $data['status'] = 'Hadir';
+            $user_id = $data['id_karyawan'];
+            $tanggal_hari_ini = date('Y-m-d');
+            
+            // Cek apakah sudah ada absensi untuk karyawan pada hari ini
+            $existing_absensi = $this->db
+                ->where('id_karyawan', $user_id)
+                ->where('tanggal', $tanggal_hari_ini)
+                ->get('absensi')
+                ->row();
         
-            // Selanjutnya, masukkan data ini ke tabel "absensi".
-            $this->db->insert('absensi', $data);
+            if (!$existing_absensi) {
+                // Jika belum ada absensi untuk karyawan pada hari ini, tambahkan absensi baru
+                $data['tanggal'] = $tanggal_hari_ini;
+                $data['jam_masuk'] = date('H:i:s');
+                $data['status'] = 'Hadir';
         
-            // Kembalikan ID dari data yang baru saja ditambahkan
-            return $this->db->insert_id();
+                $this->db->insert('absensi', $data);
+        
+                // Kembalikan ID dari data yang baru saja ditambahkan
+                return $this->db->insert_id();
+            } else {
+                // Jika sudah ada absensi pada hari ini, Anda dapat memberikan pesan kesalahan atau melakukan tindakan lain sesuai kebutuhan Anda.
+                // Contoh:
+                return false; // Mengembalikan nilai false untuk menandakan kesalahan
+            }
         }
+        
+        public function getExistingAbsensi($user_id) {
+            $today = date('Y-m-d');
+            $this->db->where('id_karyawan', $user_id);
+            $this->db->where('tanggal', $today);
+            return $this->db->get('absensi')->row();
+        }
+        
 
         public function setAbsensiPulang($absen_id) {
             // Fungsi ini digunakan untuk mengisi jam pulang dan mengubah status menjadi "pulang".
@@ -78,10 +102,7 @@
             $this->db->insert('absensi', $data);
         }
 
-        public function hapusAbsensi($absen_id) {
-            $this->db->where('id', $absen_id);
-            $this->db->delete('absensi');
-        }    
+       
 
         public function updateAbsensi($absen_id, $data) {
             // Perbarui data absensi berdasarkan $absen_id

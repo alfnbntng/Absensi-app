@@ -17,14 +17,6 @@
                                 <label for="kegiatan" class="form-label">Kegiatan:</label>
                                 <input type="text" class="form-control" id="kegiatan" name="kegiatan" value="<?= $absensi->kegiatan; ?>" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="jam_masuk" class="form-label">Jam Masuk:</label>
-                                <input type="time" class="form-control" id="jam_masuk" name="jam_masuk" value="<?= date('H:i', strtotime($absensi->jam_masuk)); ?>" required>   
-                            </div>
-                            <div class="mb-3">
-                                <label for="tanggal" class="form-label">Tanggal:</label>
-                                <input type="date" class="form-control" id="tanggal" name="tanggal" value="<?= date('H:i', strtotime($absensi->tanggal)); ?>" required>   
-                            </div>
                             <button type="button" class="btn btn-primary" id="simpanButton">Simpan Perubahan</button>
                         </form>
                     </div>

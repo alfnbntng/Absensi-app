@@ -64,7 +64,7 @@
                                     <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                                     <span class="fa fa-fw fa-eye-slash field-icon toggle-password" onclick="togglePassword()"></span>
                                 </div>
-
+                                
                                 <div class="text-center"> 
                                     <button type="submit" class="btn btn-dark">Masuk</button> 
                                 </div> 
@@ -74,8 +74,9 @@
                                 <div class="alert alert-danger mt-3">
                                     <?= $login_error; ?>
                                 </div>
-                            <?php endif; ?>
-                        </div> 
+                                <?php endif; ?>
+                            </div> 
+                            <span class="text-center"><a class="text-white" href="<?= base_url('auth/register_karyawan')?>">klik di sini untuk membuat akun</a></span>
                     </div> 
                 </div> 
             </div> 

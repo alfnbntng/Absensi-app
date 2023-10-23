@@ -90,32 +90,43 @@ class Karyawan extends CI_Controller {
     
 
     public function menu_absen() {
-            $user_id = $this->session->userdata('id'); // Ambil id pengguna yang sedang login
-            $this->form_validation->set_rules('kegiatan', 'Kegiatan', 'required');
-
-            if ($this->form_validation->run() == FALSE) {
-                $this->load->view('karyawan/menu_absen');
-            } else {
-                date_default_timezone_set('Asia/Jakarta');
-                $jam_masuk = date('H:i:s');
-
+        $user_id = $this->session->userdata('id'); // Ambil ID pengguna yang sedang login
+        $this->form_validation->set_rules('kegiatan', 'Kegiatan', 'required');
+    
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('karyawan/menu_absen');
+        } else {
+            date_default_timezone_set('Asia/Jakarta');
+            $jam_masuk = date('H:i:s');
+    
+            // Periksa apakah sudah ada absensi untuk pengguna pada hari ini
+            $existing_absensi = $this->karyawan_model->getExistingAbsensi($user_id);
+    
+            if (!$existing_absensi) {
                 $data = array(
-                    'id_karyawan' => $user_id, // Tetapkan id_karyawan berdasarkan pengguna yang sedang login
+                    'id_karyawan' => $user_id, 
                     'kegiatan' => $this->input->post('kegiatan'),
-                    'tanggal' => date('Y-m-d'),
+                    'tanggal' => date('d-m-Y'),
                     'jam_masuk' => $jam_masuk,
                     'status' => 'berangkat',
                     'keterangan_izin' => '-'
                 );
-
-                // Menambahkan absensi dan mendapatkan ID data yang baru ditambahkan
+            
                 $new_absensi_id = $this->karyawan_model->addAbsensi($data);
-
-                // Redirect ke halaman history_absen dengan membawa ID baru
+            
+                $this->session->set_flashdata('success', 'Absen berhasil ditambahkan.');
+            
                 redirect('karyawan/history_absen/' . $new_absensi_id);
+            } else {
+                // Contoh:
+                $this->session->set_flashdata('error', 'Anda sudah melakukan absensi hari ini.');
+            
+                redirect('karyawan/menu_absen');
             }
-        
+            
+        }
     }
+    
 
     public function menu_izin() {
        
@@ -162,30 +173,19 @@ class Karyawan extends CI_Controller {
             if ($absensi) {
                 // Mengecek apakah pengguna mengirimkan formulir perubahan
                 if ($this->input->post()) {
-                    // Lakukan validasi terhadap input
                     $this->form_validation->set_rules('kegiatan', 'Kegiatan', 'required');
-                    $this->form_validation->set_rules('tanggal', 'tanggal', 'required');
-                    $this->form_validation->set_rules('jam_masuk', 'Jam Masuk', 'required');
 
                     if ($this->form_validation->run() === TRUE) {
-                        // Dapatkan data input pengguna
                         $kegiatan = $this->input->post('kegiatan');
-                        $jam_masuk = $this->input->post('jam_masuk');
-                        $tanggal = $this->input->post('tanggal');
 
-                        // Lakukan pembaruan data absensi
                         $data = array(
                             'kegiatan' => $kegiatan,
-                            'jam_masuk' => $jam_masuk,
-                            'tanggal' => $tanggal
                         );
 
                         $this->karyawan_model->updateAbsensi($absen_id, $data);
 
-                        // Set pesan sukses
                         $this->session->set_flashdata('success', 'Data absensi berhasil diubah.');
 
-                        // Redirect kembali ke halaman riwayat absen
                         redirect('karyawan/history_absen');
                     }
                 }
@@ -210,10 +210,7 @@ class Karyawan extends CI_Controller {
     
     }
 
-    public function hapus($absen_id) {
-            $this->karyawan_model->hapusAbsensi($absen_id);
-            redirect('karyawan/history_absen');
-    }
+   
 
     public function profile() {
         $data['user'] = $this->karyawan_model->get_by_id('user', 'id', $this->session->userdata('id'));
@@ -239,61 +236,72 @@ class Karyawan extends CI_Controller {
 
 
     public function aksi_ubah_akun()
-    {
-        $password_baru = $this->input->post('password_baru');
-        $konfirmasi_password = $this->input->post('konfirmasi_password');
-        $email = $this->input->post('email');
-        $username = $this->input->post('username');
-        $first_name = $this->input->post('first_name'); // Tambahkan first_name
-        $last_name = $this->input->post('last_name'); // Tambahkan last_name
-    
-        $data = [
-            'email' => $email,
-            'username' => $username,
-            'first_name' => $first_name, // Tambahkan first_name
-            'last_name' => $last_name, // Tambahkan last_name
-        ];
-    
-        if (!empty($password_baru)) {
-            if ($password_baru === $konfirmasi_password) {
-                $data['password'] = md5($password_baru);
-            } else {
-                $this->session->set_flashdata('message', 'Password baru dan Konfirmasi password harus sama');
-                redirect(base_url('karyawan/profile'));
+        {
+            $password_lama = $this->input->post('password_lama');
+            $password_baru = $this->input->post('password_baru');
+            $konfirmasi_password = $this->input->post('konfirmasi_password');
+            $email = $this->input->post('email');
+            $username = $this->input->post('username');
+            $first_name = $this->input->post('first_name');
+            $last_name = $this->input->post('last_name');
+
+            $user_id = $this->session->userdata('id');
+            $user = $this->karyawan_model->get_by_id('user', 'id', $user_id);
+
+            // Validasi Password Lama
+            if (md5($password_lama) !== $user->password) {
+                echo json_encode(['status' => 'error', 'message' => 'Password Lama Salah']);
+                exit;
             }
-        }   
-    
-        $this->session->set_userdata($data);
-        $update_result = $this->karyawan_model->update('user', $data, ['id' => $this->session->userdata('id')]);
-    
-        if ($update_result) {
-            redirect(base_url('karyawan/profile'));
-        } else {
-            redirect(base_url('karyawan/profile'));
+
+            $data = [
+                'email' => $email,
+                'username' => $username,
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+            ];
+
+            if (!empty($password_baru)) {
+                if ($password_baru === $konfirmasi_password) {
+                    $data['password'] = md5($password_baru);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Password Baru dan Konfirmasi Password harus sama']);
+                    exit;
+                }
+            }
+
+            $update_result = $this->karyawan_model->update('user', $data, ['id' => $user_id]);
+
+            if ($update_result) {
+                // Redirect ke halaman "karyawan/profile" setelah profil berhasil diperbarui
+                redirect('karyawan/profile');
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Gagal memperbarui profil']);
+            }
         }
-    }
+
     
     public function aksi_ubah_foto()
-    {
-        $image = $this->upload_image('image'); 
-        
-        if ($image[0] === false) {
-            redirect(base_url('karyawan/profile'));
-        } else {
-            $data = [
-                'image' => $image[1],
-            ];
+        {
+            $image = $this->upload_image('image'); 
             
-            $this->session->set_userdata('image', $data['image']);
-            $update_result = $this->karyawan_model->update('user', $data, ['id' => $this->session->userdata('id')]);
-            
-            if ($update_result) {
+            if ($image[0] === false) {
                 redirect(base_url('karyawan/profile'));
             } else {
-                redirect(base_url('karyawan/profile'));
+                $data = [
+                    'image' => $image[1],
+                ];
+                
+                $this->session->set_userdata('image', $data['image']);
+                $update_result = $this->karyawan_model->update('user', $data, ['id' => $this->session->userdata('id')]);
+                
+                if ($update_result) {
+                    redirect(base_url('karyawan/profile'));
+                } else {
+                    redirect(base_url('karyawan/profile'));
+                }
             }
         }
-    }
     
 
 }

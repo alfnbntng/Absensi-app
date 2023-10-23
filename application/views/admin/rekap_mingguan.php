@@ -13,14 +13,14 @@
 
 <body>
     <?php $this->load->view('components/sidebar_admin'); ?>
-    <h2>Rekap Mingguan</h2>
-    <div class="my-3">
-        <a class="btn btn-dark"  href="<?php echo base_url('admin/export_rekap_mingguan') ?>"; ?>Eksport Rekap Mingguan</a>
-    </div>    
     <div class="min-vh-100 d-flex py-2 justify-content-center">
         <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
+            <div class="card">
+                <div class="card-body">
+                    <div class="my-2 d-flex justify-content-between">
+                        <h2>Rekap Mingguan</h2>
+                        <a class="btn btn-dark"  href="<?php echo base_url('admin/export_rekap_mingguan') ?>"; ?>Eksport Rekap Mingguan</a>
+                    </div>    
                 <div class="table-responsive">
                     <table class="table">
                         <thead class="table-dark">
