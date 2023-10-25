@@ -221,7 +221,7 @@ class Admin extends CI_Controller {
             $sheet->mergeCells('A1:H1');
             $sheet->getStyle('A1')->getFont()->setBold(true);
     
-            $sheet->setCellValue('A3', "ID");
+            $sheet->setCellValue('A3', "No");
             $sheet->setCellValue('B3', "NAMA KARYAWAN");
             $sheet->setCellValue('C3', "KEGIATAN");
             $sheet->setCellValue('D3', "TANGGAL MASUK");

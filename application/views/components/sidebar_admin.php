@@ -470,10 +470,10 @@ h1, .h1 {
   <body>
     <div class="dashboard">
       <div class="dashboard-nav">
-        <header>
-          <button class="menu-toggle">
-            <i class="fa-solid fa-bars"></i>
-          </button>
+         <header>
+            <button class="menu-toggle">
+               <i class="fa-solid fa-bars"></i>
+            </button>
           <a href="#" class="brand-logo"
             > <span>ABSENT </span> <span class="text-warning">App</span><i class="fa-solid fa-building text-warning"></i></a
           >
@@ -497,6 +497,16 @@ h1, .h1 {
           <a href="<?= base_url('admin/profile'); ?>" class="dashboard-nav-item"
             ><i class="fas fa-user"></i> Profile
           </a>
+          <a href="#" class="dashboard-nav-item dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="fa-solid fa-calendar-week"></i> Dropdown
+         </a>
+         <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Opsi 1</a>
+            <a class="dropdown-item" href="#">Opsi 2</a>
+            <a class="dropdown-item" href="#">Opsi 3</a>
+         </div>
+
+
           <div class="nav-item-divider"></div>
           <a href="<?= base_url('auth/logout')?>" class="dashboard-nav-item" id="logout-link"
             ><i class="fas fa-sign-out-alt"></i> Logout

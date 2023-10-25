@@ -34,7 +34,7 @@
                     <td><?php echo $row->kegiatan; ?></td>
                     <td><?php echo $row->keterangan_izin; ?></td>
                     <td><?php echo $row->jam_masuk; ?></td>
-                    <td><?php echo $row->jam_pulang; ?></td>
+                    <td id="jamPulang_<?php echo $row->id; ?>"><?php echo $row->jam_pulang; ?></td>
                     <td><?php echo $row->status; ?></td>
                     <td>
                         <?php if ($row->status == 'Izin'): ?>
@@ -82,36 +82,54 @@
         });
     }
 
+    // function disablePulangButton(absenId, status) {
+    //     var pulangButton = document.getElementById("pulangButton_" + absenId);
+    //     if (status === 'pulang') {
+    //         // Tombol "Batal Pulang" diklik, Anda dapat menambahkan kode di sini
+    //         pulangButton.classList.add("btn-danger");
+    //         pulangButton.classList.remove("btn-success");
+    //         pulangButton.innerHTML = "Batal Pulang";
+    //     } else {
+    //         // Tombol "Pulang" diklik, Anda dapat menambahkan kode di sini
+    //         pulangButton.classList.remove("btn-danger");
+    //         pulangButton.classList.add("btn-success");
+    //         pulangButton.innerHTML = "Pulang";
+    //     }
+    // }
+    
+    // Memeriksa status saat tombol "Pulang" di klik
+  document.addEventListener("click", function(event) {
+    if (event.target.id && event.target.id.startsWith("pulangButton_")) {
+        var absenId = event.target.id.replace("pulangButton_", "");
+        var status = 'pulang'; // Mengatur status sesuai dengan "pulang"
+
+        // Memanggil fungsi untuk mengubah tampilan tombol
+        disablePulangButton(absenId, status);
+
+        // Menghapus elemen yang menampilkan jam pulang dari tampilan
+        var jamPulangElement = document.getElementById("jamPulang_" + absenId);
+        if (jamPulangElement) {
+            jamPulangElement.parentNode.removeChild(jamPulangElement);
+        }
+
+        // Di sini, Anda juga dapat menambahkan kode untuk memproses penghapusan jam pulang dari basis data jika diperlukan.
+        // Contoh:
+        // Mengirim permintaan ke server untuk menghapus jam pulang dari basis data.
+        // Implementasinya tergantung pada teknologi yang Anda gunakan (AJAX, REST API, dll.).
+    }
+});
+
+
     function disablePulangButton(absenId, status) {
         var pulangButton = document.getElementById("pulangButton_" + absenId);
         if (status === 'pulang') {
-            // Tombol "Batal Pulang" diklik, Anda dapat menambahkan kode di sini
+            // Tombol "Batal Pulang" diklik
             pulangButton.classList.add("btn-danger");
             pulangButton.classList.remove("btn-success");
             pulangButton.innerHTML = "Batal Pulang";
-        } else {
-            // Tombol "Pulang" diklik, Anda dapat menambahkan kode di sini
-            pulangButton.classList.remove("btn-danger");
-            pulangButton.classList.add("btn-success");
-            pulangButton.innerHTML = "Pulang";
         }
     }
-    
-    // Memeriksa status saat tombol "Pulang" di klik
-    document.addEventListener("click", function(event) {
-        if (event.target.id && event.target.id.startsWith("pulangButton_")) {
-            var absenId = event.target.id.replace("pulangButton_", "");
-            var status = '<?php echo $row->status; ?>'; // Status dari PHP
 
-            if (status === 'pulang') {
-                // Tombol "Batal Pulang" diklik, Anda dapat menambahkan kode di sini
-                disablePulangButton(absenId, 'pulang');
-            } else {
-                // Tombol "Pulang" diklik, Anda dapat menambahkan kode di sini
-                disablePulangButton(absenId, 'batal_pulang');
-            }
-        }
-    });
 </script>
 </body>
 </html>

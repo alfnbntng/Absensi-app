@@ -17,9 +17,10 @@ class Karyawan extends CI_Controller {
     public function index() {
             // Set zona waktu ke 'Asia/Jakarta'
             date_default_timezone_set('Asia/Jakarta');
+            $jam_pulang = date('H:i:s');
+            $user_id = $this->session->userdata('id');
     
-            $absensi = $this->karyawan_model->get_data('absensi')->result();
-    
+            $absensi = $this->karyawan_model->getAbsensiByUserId($user_id);
             $totalIzin = $this->hitungTotalIzin($absensi);
             $totalMasuk = $this->hitungTotalMasuk($absensi);
             $totalKeseluruhan = count($absensi);
@@ -98,6 +99,7 @@ class Karyawan extends CI_Controller {
         } else {
             date_default_timezone_set('Asia/Jakarta');
             $jam_masuk = date('H:i:s');
+            $jam_pulang = date('H:i:s');
     
             // Periksa apakah sudah ada absensi untuk pengguna pada hari ini
             $existing_absensi = $this->karyawan_model->getExistingAbsensi($user_id);

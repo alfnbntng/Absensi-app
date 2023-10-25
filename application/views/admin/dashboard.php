@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Karyawan</title>
+    <title>Dashboard Admin</title>
     <style>
         .order-card {
             color: #fff;
@@ -88,6 +88,7 @@
                 <thead class="table-dark">
                     <tr class="text-center">
                         <th>No</th>
+                        <th>Nama</th>
                         <th>Tanggal</th>
                         <th>Jam Masuk</th>
                         <th>Jam Pulang</th>
@@ -98,6 +99,7 @@
                     <?php $no=0; foreach($absensi as $row): $no++ ?>
                         <tr class="text-center">
                             <td><?php echo $no ?></td>
+                            <td><?php echo panggil_username($row->id_karyawan) ?></td>
                             <td><?php echo $row->tanggal ?></td>
                             <td><?php echo $row->jam_masuk ?></td>
                             <td><?php echo $row->jam_pulang ?></td>
