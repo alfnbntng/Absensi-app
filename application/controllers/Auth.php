@@ -5,6 +5,7 @@ class Auth extends CI_Controller {
     function __construct(){
         parent::__construct(); 
         $this->load->library('form_validation');
+        $this->load->library('upload');
         $this->load->model('m_model');
     } 
 
@@ -15,6 +16,40 @@ class Auth extends CI_Controller {
     public function register_karyawan() {
         $this->load->view('auth/register_karyawan');
     }
+
+    public function upload_image_admin($value)
+		{
+			$kode = round(microtime(true) * 1000);
+			$config['upload_path'] = './images/admin/';
+			$config['allowed_types'] = 'jpg|png|jpeg';
+			$config['max_size'] = 30000;
+			$config['file_name'] = $kode;
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload($value)) {
+				return array(false, '');
+			} else {
+				$fn = $this->upload->data();
+				$nama = $fn['file_name'];
+				return array(true, $nama);
+			}
+		}
+
+    public function upload_image_karyawan($value)
+		{
+			$kode = round(microtime(true) * 1000);
+			$config['upload_path'] = './images/karyawan/';
+			$config['allowed_types'] = 'jpg|png|jpeg';
+			$config['max_size'] = 30000;
+			$config['file_name'] = $kode;
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload($value)) {
+				return array(false, '');
+			} else {
+				$fn = $this->upload->data();
+				$nama = $fn['file_name'];
+				return array(true, $nama);
+			}
+		}
     
     public function index() { 
         $this->load->view('auth/login'); 
@@ -67,21 +102,21 @@ class Auth extends CI_Controller {
         } else {
             $email = $this->input->post('email');
             $username = $this->input->post('username');
-    
+            
             // Periksa apakah email atau username sudah ada
             $email_exists = $this->m_model->userExists('email', $email);
             $username_exists = $this->m_model->userExists('username', $username);
-    
+            
             if ($email_exists) {
                 $this->session->set_flashdata('error_message', 'Email sudah digunakan!');
                 redirect('auth/register_karyawan');
             } elseif ($username_exists) {
                 $this->session->set_flashdata('error_message', 'Username sudah digunakan!');
                 redirect('auth/register_karyawan');
-            } else  {
+            } else {
                 // Jika tidak ada email atau username yang digunakan, lanjutkan pendaftaran
                 $hashed_password = md5($this->input->post('password'));
-    
+
                 $data = [
                     'username' => $username,
                     'first_name' => $this->input->post('first_name'),
@@ -89,9 +124,16 @@ class Auth extends CI_Controller {
                     'email' => $email,
                     'password' => $hashed_password,
                     'role' => 'karyawan',
-                    'image' => 'images/admin/user.png'
                 ];
-    
+
+                // Periksa apakah ada file gambar yang diunggah
+                $image_upload = $this->upload_image_karyawan('userfile');
+                if ($image_upload[0]) {
+                    $data['image'] = $image_upload[1]; // Gunakan nama gambar yang diunggah
+                } else {
+                    $data['image'] = 'user.png'; // Gunakan 'user.png' jika tidak ada gambar yang diunggah
+                }
+
                 $this->db->insert('user', $data);
                 
                 $this->session->set_flashdata('success_message', 'Registrasi berhasil! Anda telah mendaftar sebagai karyawan.');

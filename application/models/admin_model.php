@@ -25,6 +25,12 @@ class Admin_model extends CI_Model {
         return $this->db->affected_rows();
     }
 
+    function get_karyawan_data(){
+        $this->db->where('role', 'karyawan'); // Filter berdasarkan peran "karyawan"
+        return $this->db->get('user')->result();
+    }
+    
+
     public function hapusAbsensi($absen_id) {
         $this->db->where('id', $absen_id);
         $this->db->delete('absensi');
