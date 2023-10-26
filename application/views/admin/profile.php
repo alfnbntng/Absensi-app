@@ -123,21 +123,33 @@
                             </div>
                         </div>
                         <!-- Form Row        -->
-                        <div class="row gx-3 mb-1">
-                            <div class="col-md-12">
-                                <span>Password Lama</span>
-                                <input type="text" placeholder="Password Lama" class="form-control" id="password_lama" name="password_lama">
+                        <div class="col-md-12">
+                            <span>Password Lama</span>
+                            <div class="input-group">
+                                <input type="password" placeholder="Password Lama" class="form-control" id="password_lama" name="password_lama">
+                                <span class="input-group-text" id="password-lama-icon">
+                                    <i class="fas fa-eye-slash" id="password-lama-icon" onclick="togglePassword('password_lama')"></i>
+                                </span>
                             </div>
                         </div>
-                        <div class="row gx-3 mb-1">
-                            <div class="col-md-6">
-                                <span>Password Baru</span>
-                                <input type="text" placeholder="Password Baru" class="form-control" id="password_baru" name="password_baru">
+
+                        <div class="col-md-6">
+                            <span>Password Baru</span>
+                            <div class="input-group">
+                                <input type="password" placeholder="Password Baru" class="form-control" id="password_baru" name="password_baru">
+                                <span class="input-group-text" id="password-baru-icon">
+                                    <i class="fas fa-eye-slash" id="password-baru-icon" onclick="togglePassword('password_baru')"></i>
+                                </span>
                             </div>
-                            <!-- Form Group (location)-->
-                            <div class="col-md-6">
-                                <span>Password Konfirmasi</span>
-                                <input type="text" placeholder="Konfirmasi Password" class="form-control" id="konfirmasi_password" name="konfirmasi_password">
+                        </div>
+
+                        <div class="col-md-6">
+                            <span>Password Konfirmasi</span>
+                            <div class="input-group">
+                                <input type="password" placeholder="Konfirmasi Password" class="form-control" id="konfirmasi_password" name="konfirmasi_password">
+                                <span class="input-group-text" id="password-konfirmasi-icon">
+                                    <i class="fas fa-eye-slash" id="password-konfirmasi-icon" onclick="togglePassword('konfirmasi_password')"></i>
+                                </span>
                             </div>
                         </div>
                         <!-- Save changes button-->
@@ -154,5 +166,21 @@
         </div>
       </div>
     </div>
+    <script>
+        function togglePassword(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const passwordIcon = passwordInput.nextElementSibling.querySelector("i");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                passwordIcon.classList.remove("fa-eye-slash");
+                passwordIcon.classList.add("fa-eye");
+            } else {
+                passwordInput.type = "password";
+                passwordIcon.classList.remove("fa-eye");
+                passwordIcon.classList.add("fa-eye-slash");
+            }
+        }
+    </script>
 </body> 
 </html>
